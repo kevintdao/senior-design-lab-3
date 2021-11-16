@@ -22,9 +22,8 @@ export default function Login() {
                     </div>
 
                     <div>
-                        <a href="/register" className="hover:text-blue-500">Don't have an account?</a>
+                        <a href="/register" className="flex justify-center hover:text-blue-500">Don't have an account?</a>
                     </div>
-
                 </div>
             </form>
         </div>

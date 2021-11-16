@@ -37,7 +37,7 @@ export default function SignUp() {
                     </div>
 
                     <div>
-                        <a href="/" className="hover:text-blue-500">Already have an account?</a>
+                        <a href="/" className="flex justify-center hover:text-blue-500">Already have an account?</a>
                     </div>
 
                 </div>
