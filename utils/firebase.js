@@ -1,5 +1,5 @@
 import firebase from "firebase/app"
-import "firebase/auth"
+import { getAuth } from "firebase/auth"
 
 export const app = firebase.initializeApp({
     apiKey: process.env.API_KEY,

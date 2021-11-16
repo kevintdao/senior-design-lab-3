@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useRef } from 'react'
 
 export default function SignUp() {
-
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const confirmPasswordRef = useRef();
 
     return (
         <div>
@@ -11,17 +13,17 @@ export default function SignUp() {
                     
                     <div className="flex flex-col">
                         <label htmlFor="login">Email:</label>
-                        <input type="text" id="email" name="email" className="border border-gray-300 rounded"/>
+                        <input type="text" id="email" name="email" ref={emailRef} className="border border-gray-300 rounded"/>
                     </div>
                     
                     <div className="flex flex-col">
                         <label htmlFor="pass">Password:</label>
-                        <input type="password" id="pass" name="pass" className="border border-gray-300 rounded"/>
+                        <input type="password" id="pass" name="pass" ref={passwordRef} className="border border-gray-300 rounded"/>
                     </div>
 
                     <div className="flex flex-col">
                         <label htmlFor="confirm-pass">Confirm Password:</label>
-                        <input type="password" id="confirm-pass" name="confirm-pass" className="border border-gray-300 rounded"/>
+                        <input type="password" id="confirm-pass" name="confirm-pass" ref={confirmPasswordRef} className="border border-gray-300 rounded"/>
                     </div>
 
                     <div>
