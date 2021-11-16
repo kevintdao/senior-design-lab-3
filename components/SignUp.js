@@ -1,21 +1,13 @@
 import React from 'react'
 
 export default function SignUp() {
+
+
     return (
         <div>
             <form action="#" method="POST" className="flex items-center justify-center min-h-screen py-2">
                 <div className="w-1/2 max-w-md space-y-4 p-4 rounded-md bg-white shadow-sm border border-gray-100">
                     <h2 className="text-center font-bold mb-5">Create an account</h2>
-                    
-                    <div className="flex flex-col">
-                        <label htmlFor="f-name">First name:</label>
-                        <input type="text" id="f-name" name="f-name" className="border border-gray-300 rounded"/>
-                    </div>
-                    
-                    <div className="flex flex-col">
-                        <label htmlFor="l-name">Last name:</label>
-                        <input type="text" id="l-name" name="l-name" className="border border-gray-300 rounded"/>
-                    </div>
                     
                     <div className="flex flex-col">
                         <label htmlFor="login">Email:</label>
