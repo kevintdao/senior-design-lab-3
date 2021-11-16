@@ -1,7 +1,7 @@
-import firebase from "firebase/app"
+import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth"
 
-export const app = firebase.initializeApp({
+const app = initializeApp({
     apiKey: process.env.API_KEY,
     authDomain: process.env.AUTH_DOMAIN,
     projectId: process.env.PROJECT_ID,
@@ -12,3 +12,5 @@ export const app = firebase.initializeApp({
 })
 
 export const auth = getAuth(app);
+
+export default app;
