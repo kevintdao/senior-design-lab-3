@@ -8,17 +8,16 @@ export default function Login() {
                     <h2 className="text-center font-bold mb-5">Sign In</h2>
                     <div className="flex flex-col">
                         <label htmlFor="login">Email:</label>
-                        <input type="text" id="login" name="login" className="border border-gray-300 rounded"/>
+                        <input type="text" id="login" name="login" className="border border-gray-300 rounded p-2"/>
                     </div>
                     
                     <div className="flex flex-col">
                         <label htmlFor="password">Password:</label>
-                        <input type="password" id="password" name="password" className="border border-gray-300 rounded"/>
+                        <input type="password" id="password" name="password" className="border border-gray-300 rounded p-2"/>
                     </div>
 
                     <div>
                         <button className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700">Login</button>
-
                     </div>
 
                     <div>
