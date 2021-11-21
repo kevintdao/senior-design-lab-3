@@ -1,8 +1,8 @@
 import React from 'react'
-import NavBar from '../components/NavBar'
+import PrivateRoute from '../components/PrivateRoute';
 
 export default function dashboard() {
-    return (
+    return PrivateRoute(
         <div>
             Dashboard
         </div>
