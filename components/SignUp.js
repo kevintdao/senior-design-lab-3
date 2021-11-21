@@ -35,8 +35,8 @@ export default function SignUp() {
 
     return (
         <div>
-            <form action="#" method="POST" onSubmit={handleSubmit} className="flex items-center justify-center min-h-screen py-2">
-                <div className="w-1/2 max-w-md space-y-4 p-4 rounded-md bg-white shadow-sm border border-gray-100">
+            <form action="#" method="POST" onSubmit={handleSubmit} className="flex items-center justify-center py-2">
+                <div className="w-1/2 max-w-md space-y-4 p-4 rounded-md bg-white shadow-sm border border-gray-100 mt-10">
                     <h2 className="text-center font-bold mb-5">Create an account</h2>
 
                     {/* error alert */}
@@ -62,7 +62,7 @@ export default function SignUp() {
                     </div>
 
                     <div>
-                        <a href="/" className="flex justify-center hover:text-blue-500">Already have an account?</a>
+                        <a href="/login" className="flex justify-center hover:text-blue-500">Already have an account?</a>
                     </div>
                 </div>
             </form>
