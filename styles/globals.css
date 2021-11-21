@@ -22,3 +22,9 @@
         @apply text-base;
     }
 }
+
+@layer utilities {
+    .min-h-94 {
+        min-height: 94vh;
+    }
+}
