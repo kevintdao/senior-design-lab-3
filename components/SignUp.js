@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useAuth } from '../AuthContext'
 import Alert from './Alert'
+import NavBar from './NavBar';
 
 export default function SignUp() {
     const emailRef = useRef();
@@ -34,10 +35,11 @@ export default function SignUp() {
 
     return (
         <div>
+            <NavBar />
             <form action="#" method="POST" onSubmit={handleSubmit} className="flex items-center justify-center min-h-screen py-2">
                 <div className="w-1/2 max-w-md space-y-4 p-4 rounded-md bg-white shadow-sm border border-gray-100">
                     <h2 className="text-center font-bold mb-5">Create an account</h2>
-                    
+
                     {/* error alert */}
                     {error && <Alert text={error} />}
 
