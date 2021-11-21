@@ -20,13 +20,34 @@ export default function NavBar() {
         }
     }
 
-    return (
-        <div className="w-full">
-            <nav className="bg-gray-800 p-1">
-                {/* error alert */}
-                {error && <Alert text={error} />}
+    if(currentUser == null){
+        return (
+            <div className="shadow-sm w-full sticky top-0 z-50">
+                <nav className="bg-gray-800 p-1">
+                    <div className="flex justify-between space-x-4">
+                        <div className="flex space-x-4">
+                            <a href="/home" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        </div>
 
-                <div className="flex space-x-4">
+                        <div className="flex space-x-4">
+                            <a href="/register" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Register</a>
+                            <a href="/" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <div>
+                    {/* error alert */}
+                    {error && <Alert text={error} />}
+                </div>
+            </div>
+        )
+    }
+
+    return (
+        <div className="shadow-sm w-full sticky top-0 z-50">
+            <nav className="bg-gray-800 p-1">
+                <div className="flex justify-between space-x-4">
                     <div className="flex space-x-4">
                         <a href="/home" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
                         <a href="/poll" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Poll</a>
@@ -40,6 +61,11 @@ export default function NavBar() {
                     </div>
                 </div>
             </nav>
+
+            <div>
+                {/* error alert */}
+                {error && <Alert text={error} />}
+            </div>
         </div>
     )
 }
