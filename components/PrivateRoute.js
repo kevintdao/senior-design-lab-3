@@ -8,6 +8,9 @@ export default function PrivateRoute(props) {
 
     if (currentUser == null) {
         router.push('/login');
+        return (
+            <div></div>
+        )
     }
 
     return (
