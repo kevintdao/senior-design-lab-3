@@ -26,12 +26,12 @@ export default function NavBar() {
                 <nav className="bg-gray-800 p-1">
                     <div className="flex justify-between space-x-4">
                         <div className="flex space-x-4">
-                            <a href="/home" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                            <a href="/" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
                         </div>
 
                         <div className="flex space-x-4">
                             <a href="/register" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Register</a>
-                            <a href="/" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                            <a href="/login" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
                         </div>
                     </div>
                 </nav>
@@ -49,7 +49,7 @@ export default function NavBar() {
             <nav className="bg-gray-800 p-1">
                 <div className="flex justify-between space-x-4">
                     <div className="flex space-x-4">
-                        <a href="/home" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="/dashboard" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
                         <a href="/poll" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Poll</a>
                     </div>
 
