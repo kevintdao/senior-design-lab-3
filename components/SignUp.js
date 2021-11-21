@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { useAuth } from '../AuthContext'
 import Alert from './Alert'
-import NavBar from './NavBar';
 
 export default function SignUp() {
     const emailRef = useRef();

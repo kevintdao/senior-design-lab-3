@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useAuth } from '../AuthContext'
 import Alert from './Alert'
-import NavBar from './NavBar'
 
 export default function Login() {
     const emailRef = useRef();
