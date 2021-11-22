@@ -60,9 +60,9 @@ export default function Poll() {
 
     return (
         <div className="container mt-2">
-            <h1 className="text-center">{poll.title}</h1>
+            <h2 className="text-center">{poll.title}</h2>
             <p className="text-center">by <strong>{poll.email}</strong></p>
-            <table className="table-auto ml-10 mt-2 mb-2">
+            <table className="table-auto mt-2 mb-2">
                 <tbody>
                     <tr>
                         <td>Location:</td>
@@ -80,6 +80,7 @@ export default function Poll() {
             </table>
             <hr className="mb-2"/>
             <DisplayPoll blocks={blocks} />
+            <button className="bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium">Submit</button>
         </div>
     )
 }

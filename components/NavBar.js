@@ -45,8 +45,8 @@ export default function NavBar() {
     }
 
     return (
-        <div className="shadow-md w-full sticky top-0 z-50 bg-gray-800 ">
-            <nav className="container mx-auto p-1">
+        <div className="shadow-md w-full sticky top-0 z-50 bg-gray-800">
+            <nav className="container mx-auto p-1 pl-4 pr-4">
                 <div className="flex justify-between space-x-4">
                     <div className="flex space-x-4">
                         <a href="/dashboard" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
@@ -54,10 +54,10 @@ export default function NavBar() {
                     </div>
 
                     <div className="flex space-x-4">
-                        <div className="px-3 py-2">
+                        <div className="px-3 py-2 hidden sm:inline-block">
                             <p className="text-gray-300 text-sm font-medium"><strong>Logged in as:</strong> {currentUser && currentUser.email}</p>
                         </div>
-                        <button onClick={handleLogout} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-sm text-sm font-medium">Logout</button>
+                        <button onClick={handleLogout} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</button>
                     </div>
                 </div>
             </nav>
