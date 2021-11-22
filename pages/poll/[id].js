@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { doc, getDoc, getDocs, collection, query, where } from 'firebase/firestore'
+import { doc, getDoc, getDocs, collection, query, where, orderBy } from 'firebase/firestore'
 import { db } from '../../utils/firebase'
+import DisplayPoll from '../../components/DisplayPoll'
 
 export default function Poll() {
     const router = useRouter();
@@ -26,10 +27,13 @@ export default function Poll() {
 
     async function getBlocks(pollId){
         const output = [];
-        const q = query(collection(db, "blocks"), where("poll", "==", pollId));
+        const q = query(collection(db, "blocks"), where("poll", "==", pollId), orderBy("date"));
         const snapshot = await getDocs(q);
         snapshot.forEach((doc) => {
-            output.push(doc.data());
+            output.push({
+                id: doc.id,
+                data: doc.data()
+            });
         });
         return output;
     }
@@ -60,7 +64,7 @@ export default function Poll() {
             <p>{poll.location}</p>
             <p>{poll.notes}</p>
             <p>All times displays in: <u>{poll.timezone}</u></p>
-            <p>{blocks[0].date}</p>
+            <DisplayPoll blocks={blocks} />
         </div>
     )
 }
