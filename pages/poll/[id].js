@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { doc, getDoc } from 'firebase/firestore'
+import { doc, getDoc, getDocs, collection, query, where } from 'firebase/firestore'
 import { db } from '../../utils/firebase'
-import Alert from '../../components/Alert'
 
 export default function Poll() {
     const router = useRouter();
     const { id } = router.query;
     const [error, setError] = useState('');
-    const [data, setData] = useState();
+    const [poll, setPoll] = useState();
+    const [blocks, setBlocks] = useState([]);
     const [loading, setLoading] = useState(true);
 
     async function getPoll(id){
@@ -24,9 +24,22 @@ export default function Poll() {
         }
     }
 
+    async function getBlocks(pollId){
+        const output = [];
+        const q = query(collection(db, "blocks"), where("poll", "==", pollId));
+        const snapshot = await getDocs(q);
+        snapshot.forEach((doc) => {
+            output.push(doc.data());
+        });
+        return output;
+    }
+
     useEffect(() => {
         getPoll(id).then(response => {
-            setData(response);
+            setPoll(response);
+        })
+        getBlocks(id).then(response => {
+            setBlocks(response);
             setLoading(false);
         })
     }, [])
@@ -35,7 +48,7 @@ export default function Poll() {
         return <div></div>
     }
 
-    if (!data) {
+    if (!poll) {
         return <div className="container mt-2 text-red-500">
             <h1>{error}</h1>
         </div>
@@ -43,8 +56,11 @@ export default function Poll() {
 
     return (
         <div className="container mt-2">
-            <h1>{data.title}</h1>
-            {id}
+            <h1 className="text-center">{poll.title}</h1>
+            <p>{poll.location}</p>
+            <p>{poll.notes}</p>
+            <p>All times displays in: <u>{poll.timezone}</u></p>
+            <p>{blocks[0].date}</p>
         </div>
     )
 }
