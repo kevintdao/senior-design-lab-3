@@ -61,9 +61,24 @@ export default function Poll() {
     return (
         <div className="container mt-2">
             <h1 className="text-center">{poll.title}</h1>
-            <p>{poll.location}</p>
-            <p>{poll.notes}</p>
-            <p>All times displays in: <u>{poll.timezone}</u></p>
+            <p className="text-center">by <strong>{poll.email}</strong></p>
+            <table className="table-auto ml-10 mt-2 mb-2">
+                <tbody>
+                    <tr>
+                        <td>Location:</td>
+                        <td>{poll.location}</td>
+                    </tr>
+                    <tr>
+                        <td>Notes/Comments:</td>
+                        <td>{poll.notes}</td>
+                    </tr>
+                    <tr>
+                        <td>All times displays in:</td>
+                        <td><u>{poll.timezone}</u></td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr className="mb-2"/>
             <DisplayPoll blocks={blocks} />
         </div>
     )

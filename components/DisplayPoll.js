@@ -6,14 +6,14 @@ export default function DisplayPoll(props) {
 
     return (
         <div>
-            {blocks.map((block) => {
+            {blocks.map((block, i) => {
                 const id = block.id;
                 const data = block.data;
 
                 const blockDate = data.date.toDate().toString().split(" ");
                 const times = data.time;
 
-                return <PollBlock date={blockDate} times={times} />
+                return <PollBlock key={i} date={blockDate} times={times} />
             })}
         </div>
     )

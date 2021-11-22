@@ -6,10 +6,14 @@ export default function PollBlock(props) {
 
     return (
         <div>
-            <h3>{day} {month} {date} {year}</h3>
+            <h4>{day} {month} {date} {year}</h4>
             {times.map((time, i) => {
-                return <p key={month + date + time}>{time}</p>
+                return <div className="flex items-center" key={i}>
+                    <input type="checkbox" className="mr-2" />
+                    <p>{time}</p>
+                </div>
             })}
+            <hr className="mb-1 mt-1"/>
         </div>
     )
 }
