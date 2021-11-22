@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import { useRouter } from 'next/router';
 import { useAuth } from '../AuthContext'
 import Alert from './Alert'
 
@@ -9,6 +10,7 @@ export default function SignUp() {
     const { signup } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     async function handleSubmit(e){
         e.preventDefault();
@@ -26,6 +28,7 @@ export default function SignUp() {
             // prevent user from creating multiple accounts by clicking signup button repeatedly
             setLoading(true)
             await signup(emailRef.current.value, passwordRef.current.value);
+            router.push('/dashboard');
         } catch {
             setError('Failed to create an account');
         }
