@@ -22,8 +22,8 @@ export default function NavBar() {
 
     if(currentUser == null){
         return (
-            <div className="shadow-sm w-full sticky top-0 z-50 bg-gray-800 ">
-                <nav className="container mx-auto p-1">
+            <div className="shadow-md w-full sticky top-0 z-50 bg-gray-800 ">
+                <nav className="container mx-auto p-1 pl-4 pr-4">
                     <div className="flex justify-between space-x-4">
                         <div className="flex space-x-4">
                             <a href="/" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>

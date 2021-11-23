@@ -1,7 +1,9 @@
-export default function Home() {
+import React from 'react'
+
+export default function index() {
   return (
-    <div>
-      Index Page
-    </div>                    
+    <div className="container">
+      <h2>Home Page</h2>
+    </div>
   )
 }
