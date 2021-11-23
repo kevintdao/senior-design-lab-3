@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
+import { useRouter } from 'next/router';
 import { useAuth } from '../AuthContext'
 import Alert from './Alert'
-import NavBar from './NavBar';
 
 export default function SignUp() {
     const emailRef = useRef();
@@ -10,6 +10,7 @@ export default function SignUp() {
     const { signup } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     async function handleSubmit(e){
         e.preventDefault();
@@ -27,6 +28,7 @@ export default function SignUp() {
             // prevent user from creating multiple accounts by clicking signup button repeatedly
             setLoading(true)
             await signup(emailRef.current.value, passwordRef.current.value);
+            router.push('/dashboard');
         } catch {
             setError('Failed to create an account');
         }
@@ -36,7 +38,7 @@ export default function SignUp() {
     return (
         <div>
             <form action="#" method="POST" onSubmit={handleSubmit} className="flex items-center justify-center py-2">
-                <div className="w-1/2 max-w-md space-y-4 p-4 rounded-md bg-white shadow-sm border border-gray-100 mt-10">
+                <div className="w-1/2 max-w-md space-y-4 p-4 rounded-md bg-white shadow-md border border-gray-200 mt-10">
                     <h2 className="text-center font-bold mb-5">Create an account</h2>
 
                     {/* error alert */}

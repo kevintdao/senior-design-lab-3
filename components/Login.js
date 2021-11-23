@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useAuth } from '../AuthContext'
 import Alert from './Alert'
-import NavBar from './NavBar'
 
 export default function Login() {
     const emailRef = useRef();
@@ -29,7 +28,7 @@ export default function Login() {
     return (
         <div>
             <form action="#" method="POST" onSubmit={handleSubmit} className="flex items-center justify-center py-2">
-                <div className="w-1/2 max-w-md space-y-4 p-4 rounded-md bg-white shadow-sm border border-gray-100 mt-10">
+                <div className="w-1/2 max-w-md space-y-4 p-4 rounded-md bg-white shadow-md border border-gray-200 mt-10 ">
                     <h2 className="text-center font-bold mb-5">Sign In</h2>
 
                     {/* error alert */}
