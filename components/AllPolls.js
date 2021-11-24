@@ -6,6 +6,7 @@ import { db } from '../utils/firebase'
 export default function AllPolls() {
     const { currentUser } = useAuth();
     const [polls, setPolls] = useState([]);
+    const [loading, setLoading] = useState(true);
     const currentDate = new Date(); 
 
     async function getPolls(email){
@@ -23,27 +24,33 @@ export default function AllPolls() {
 
     useEffect(() => {
         getPolls(currentUser.email).then(response => {
-            console.log(response);
             setPolls(response);
+            setLoading(false);
         })
     }, [])
+
+    if(loading){
+        return <div></div>
+    }
 
     // no polls
     if(polls.length == 0) {
         console.log(currentDate);
-        return <div className="flex justify-between border mt-2 rounded-md">
-            <div>
+        return <div className="flex md:flex-row md:justify-between mt-2 justify-start flex-col">
+            <div className="border rounded-md mb-2 w-full mr-4 p-2">
                 <h5>Active Poll(s)</h5>
+                <p>No Active Poll</p>
             </div>
 
-            <div>
+            <div className="border rounded-md mb-2 w-full p-2">
                 <h5>Past Poll(s)</h5>
+                <p>No Active Poll</p>
             </div>
         </div>
     }
 
     return (
-        <div className="border ">
+        <div>
             {/* {polls[0].data.deadline.toDate().toString()} */}
         </div>
     )
