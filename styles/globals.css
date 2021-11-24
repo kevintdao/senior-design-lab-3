@@ -21,6 +21,10 @@
     h6 {
         @apply text-xl;
     }
+    html {
+        @apply h-full;
+        @apply bg-gray-50;
+    }
 }
 
 @layer utilities {

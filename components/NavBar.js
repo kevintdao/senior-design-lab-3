@@ -20,37 +20,27 @@ export default function NavBar() {
         }
     }
 
-    if(currentUser == null){
-        return (
-            <div className="shadow-md sticky top-0 z-50 bg-gray-800 ">
-                <div className="container max-w-6xl lg:mx-auto p-1 pl-4 pr-4">
-                    <div className="flex justify-between space-x-4">
-                        <div className="flex space-x-4">
-                            <a href="/" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                        </div>
+    function Nav(){
+        if(!currentUser){
+            return (
+                <div className="flex justify-between space-x-4">
+                    <div className="flex space-x-4">
+                        <a href="/" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                    </div>
 
-                        <div className="flex space-x-4">
-                            <a href="/register" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Register</a>
-                            <a href="/login" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
-                        </div>
+                    <div className="flex space-x-4">
+                        <a href="/register" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Register</a>
+                        <a href="/login" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
                     </div>
                 </div>
-
-                <div>
-                    {/* error alert */}
-                    {error && <Alert text={error} />}
-                </div>
-            </div>
-        )
-    }
-
-    return (
-        <div className="shadow-md sticky top-0 z-50 bg-gray-800">
-            <div className="container max-w-6xl lg:mx-auto p-1 pl-4 pr-4">
+            )
+        }
+        else{
+            return (
                 <div className="flex justify-between space-x-4">
                     <div className="flex space-x-4">
                         <a href="/dashboard" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
-                        <a href="/poll" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Poll</a>
+                        <a href="/poll/create" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Create Poll</a>
                     </div>
 
                     <div className="flex space-x-4">
@@ -60,6 +50,14 @@ export default function NavBar() {
                         <button onClick={handleLogout} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</button>
                     </div>
                 </div>
+            )
+        }
+    }
+
+    return (
+        <div className="shadow-md sticky top-0 z-50 bg-gray-800">
+            <div className="container max-w-6xl lg:mx-auto p-1 pl-4 pr-4">
+                <Nav />
             </div>
 
             <div>

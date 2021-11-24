@@ -57,10 +57,11 @@ export default function AllPolls() {
                 <table className="divide-y divide-gray-200 min-w-full">
                     <thead className="bg-gray-50">
                         <tr>
-                            <th>Title</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>More Info</th>
+                            <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">Title</th>
+                            <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">Start Date</th>
+                            <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">End Date</th>
+                            <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">Timezone</th>
+                            <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">More Info</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -69,14 +70,20 @@ export default function AllPolls() {
                             const [sDay, sMonth, sDate, sYear] = poll.data.start.toDate().toString().split(" ");
                             const [eDay, eMonth, eDate, eYear] = poll.data.end.toDate().toString().split(" ");
                             const pollLink = `/poll/${poll.id}`
+                            const editLink = `/poll/edit?id=${poll.id}`
 
                             return (
                                 <tr key={i}>
-                                    <td>{poll.data.title}</td>
-                                    <td>{sMonth} {sDate} {sYear}</td>
-                                    <td>{eMonth} {eDate} {eYear}</td>
-                                    <td><a href={pollLink}>View</a></td>
-                                    <td>Edit</td>
+                                    <td className="px-2 py-3 text-sm font-medium text-gray-900">{poll.data.title}</td>
+                                    <td className="px-2 py-3 text-sm font-medium text-gray-900">{sMonth} {sDate} {sYear}</td>
+                                    <td className="px-2 py-3 text-sm font-medium text-gray-900">{eMonth} {eDate} {eYear}</td>
+                                    <td className="px-2 py-3 text-sm font-medium text-gray-900">{poll.data.timezone}</td>
+                                    <td className="px-2 py-3 text-sm font-medium text-gray-900">
+                                        <a href={pollLink} className="text-indigo-600 hover:text-indigo-900">View</a>
+                                    </td>
+                                    <td className="px-2 py-3 text-sm font-medium text-gray-900">
+                                        <a href={editLink} className="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                    </td>
                                 </tr>
                             )
                         })}
@@ -87,14 +94,14 @@ export default function AllPolls() {
     }
 
     return (
-        <div className="flex md:flex-row md:justify-between mt-2 justify-start flex-col">
-            <div className="border rounded-md mb-2 w-full mr-4 p-2">
+        <div className="flex mt-2 justify-start flex-col">
+            <div className="border rounded-md mb-2 w-full p-2 bg-white shadow-sm">
                 <h5 className="text-center mb-2">Active Poll(s)</h5>
                 <Polls polls={activePolls} />
             </div>
 
-            <div className="border rounded-md mb-2 w-full p-2">
-                <h5 className="text-center">Past Poll(s)</h5>
+            <div className="border rounded-md mb-2 w-full p-2 bg-white shadow-sm">
+                <h5 className="text-center mb-2">Past Poll(s)</h5>
                 <Polls polls={pastPolls} />
             </div>
         </div>
