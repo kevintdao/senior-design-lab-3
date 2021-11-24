@@ -9,6 +9,9 @@ export default function create() {
     const start = useRef();
     const end = useRef();
     const [loading, setLoading] = useState(false);
+    const numSB = useRef();
+    const numSlot = useRef();
+    const numPerson = useRef();
 
     async function handleSubmit(e){
         // e.preventDefault();
@@ -67,10 +70,47 @@ export default function create() {
 
                     <div className="flex flex-col">
                         <p>Choose one:</p>
-                        <input type="radio" id="slots" name="slots" value="Slots"/>
-                        <label htmlFor="create">Slots</label><br>
-                        <input type="radio" id="slots" name="slots" value="Slots"/>
-                        <label htmlFor="create">Slots</label></br>
+                        <div>
+                            <input type="radio" id="slots" name="slots" className="border border-gray-300 rounded p-2" value="Slots"/>
+                            <label htmlFor="create"> Number of Blocks</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="slots" name="slots" className="border border-gray-300 rounded p-2" value="Slots"/>
+                            <label htmlFor="create"> Minutes per Time Slot</label>
+                        </div>
+
+                        <div>
+                            <label htmlFor="create"> Number </label>
+                            <input type="number" id="number" name="number" ref={numSB} className="border border-gray-300 rounded p-2" min="1"/>  
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label htmlFor="create">Time Zone (US):</label>
+                        <select className="border border-gray-300 rounded p-2">
+                            <option value="select">Select One</option>
+                            <option value="HST">HST</option>
+                            <option value="AKST">AKST</option>
+                            <option value="PST">PST</option>
+                            <option value="MST">MST</option>
+                            <option value="CST">CST</option>
+                            <option value="EST">EST</option>
+                        </select>
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label htmlFor="create">Number of Votes per Time Slot</label>
+                        <input type="number" id="numSlot" name="numSlot" ref={numSlot} className="border border-gray-300 rounded p-2" min="0"/>  
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label htmlFor="create">Number of Votes per Person</label>
+                        <input type="number" id="numPerson" name="numPerson" ref={numPerson} className="border border-gray-300 rounded p-2" min="0"/>  
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label htmlFor="create">Number of Votes per Person</label>
+                        <input type="number" id="numPerson" name="numPerson" ref={numPerson} className="border border-gray-300 rounded p-2" min="0"/>  
                     </div>
 
                 </div>
