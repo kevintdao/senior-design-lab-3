@@ -1,7 +1,9 @@
 import { isEmpty } from '@firebase/util';
+import ReactDOM from 'react-dom'
 import React, { useRef, useState } from 'react'
 import PrivateRoute from '../../components/PrivateRoute'
 import Alert from '../../components/Alert'
+import ReactDOMServer from 'react-dom/server';
 
 export default function create() {
     const title = useRef();
@@ -19,45 +21,69 @@ export default function create() {
     const deadlineTime = useRef();
     const [error, setError] = useState('');
 
-    async function handleSubmit(e){
-        e.preventDefault();
-        var errorMsg = "";
-        
-        if(isEmpty(title.current.value)){
-            errorMsg += "Enter a title!\n\n"
-        }
-        
-        if (isEmpty(date.current.value)){
-            errorMsg += "Enter a date!\n"
-        }
+    async function handleSubmit(e) {
+        // e.preventDefault();
+        // var errorMsg = "";
 
-        if (isEmpty(start.current.value)){
-            errorMsg += "Enter a start time!\n"
-        }
+        // if (isEmpty(title.current.value)) {
+        //     errorMsg += "Enter a title!\n\n"
+        // }
 
-        if (isEmpty(end.current.value)){
-            errorMsg += "Enter an end time!\n"
-        }
+        // if (isEmpty(date.current.value)) {
+        //     errorMsg += "Enter a date!\n"
+        // }
 
-        if (!document.getElementById('slot').checked && !document.getElementById('block').checked){
-            errorMsg += "Make a selection: Number of Blocks or Minutes per Time Slot!\n"
-        }
+        // if (isEmpty(start.current.value)) {
+        //     errorMsg += "Enter a start time!\n"
+        // }
 
-        if (document.getElementById('slot').checked && numSB.current.value < 5){
-            errorMsg += "Time Slots must be at least 5 minutes!\n"
-        }
+        // if (isEmpty(end.current.value)) {
+        //     errorMsg += "Enter an end time!\n"
+        // }
 
-        if (isEmpty(numSB.current.value)){
-            errorMsg += "Enter a number!\n"
-        }
+        // if (!document.getElementById('slot').checked && !document.getElementById('block').checked) {
+        //     errorMsg += "Make a selection: Number of Blocks or Minutes per Time Slot!\n"
+        // }
+
+        // if (document.getElementById('slot').checked && numSB.current.value < 5) {
+        //     errorMsg += "Time Slots must be at least 5 minutes!\n"
+        // }
+
+        // if (isEmpty(numSB.current.value)) {
+        //     errorMsg += "Enter a number!\n"
+        // }
 
         setLoadingPlus(false);
         setLoadingPublish(false);
-        return setError(errorMsg);
+        //return setError(errorMsg);
     }
 
-    function myFunction() {
-        document.getElementById("myDIV").innerHTML="myDIV";
+// TODO: the functionality of + button 
+// add components/class for the list of dates
+// and in the render() function use the list to print all of them
+    function addDate() {
+        console.log("here1");
+        var btn = document.getElementById("dates");
+        ReactDOM.render(        <div>
+            <label htmlFor="create">Date*</label>
+            <input type="date" className="border border-gray-300 rounded p-2" />
+            <p>Start Time*</p>
+            <input type="time" className="border border-gray-300 rounded p-2" />
+            <p>End Time*</p>
+            <input type="time" className="border border-gray-300 rounded p-2" />
+        </div>, btn.parentElement)
+        console.log("here2");
+        var c = ReactDOMServer.renderToString(
+        <div>
+            <label htmlFor="create">Date*</label>
+            <input type="date" className="border border-gray-300 rounded p-2" />
+            <p>Start Time*</p>
+            <input type="time" className="border border-gray-300 rounded p-2" />
+            <p>End Time*</p>
+            <input type="time" className="border border-gray-300 rounded p-2" />
+        </div>);
+        console.log("here3");
+        btn.innerHTML += c;
     }
 
 
@@ -65,50 +91,51 @@ export default function create() {
         <div>
             <form action="#" method="POST" onSubmit={handleSubmit} className="flex items-center justify-center py-2">
                 <div className="w-1/2 max-w-md space-y-2 p-4 rounded-md bg-white shadow-md border border-gray-200 mt-10">
-                    
+
                     {/* error alert */}
                     {error && <Alert text={error} />}
 
                     <div className="flex flex-col">
                         <label htmlFor="create">Title*</label>
-                        <input type="text" id="title" name="title" ref={title} className="border border-gray-300 rounded p-2"/>
+                        <input type="text" id="title" name="title" ref={title} className="border border-gray-300 rounded p-2" />
                     </div>
 
                     <div className="flex flex-col">
                         <label htmlFor="create">Location</label>
-                        <input type="text" id="location" name="location" ref={location} className="border border-gray-300 rounded p-2"/>
+                        <input type="text" id="location" name="location" ref={location} className="border border-gray-300 rounded p-2" />
                     </div>
 
                     <div className="flex flex-col">
                         <label htmlFor="create">Notes/Comments</label>
-                        <input type="text" id="notes" name="notes" ref={notes} className="border border-gray-300 rounded p-2"/>
+                        <input type="text" id="notes" name="notes" ref={notes} className="border border-gray-300 rounded p-2" />
                     </div>
 
-                    <div className="flex flex-col">
+                    <div id="dates" className="flex flex-col">
                         <label htmlFor="create">Date*</label>
-                        <input type="date" id="date" name="date" ref={date} className="border border-gray-300 rounded p-2"/>
+                        <input type="date" id="date" name="date" ref={date} className="border border-gray-300 rounded p-2" />
                         <p>Start Time*</p>
-                        <input type="time" id="start" name="start" ref={start} className="border border-gray-300 rounded p-2"/>
+                        <input type="time" id="start" name="start" ref={start} className="border border-gray-300 rounded p-2" />
                         <p>End Time*</p>
-                        <input type="time" id="end" name="end" ref={end} className="border border-gray-300 rounded p-2"/>                   
-                        <button onclick={myFunction} disabled={loadingPlus} className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 p-2">+</button>
+                        <input type="time" id="end" name="end" ref={end} className="border border-gray-300 rounded p-2" />
                     </div>
 
+                    <button id="+" onClick={addDate} disabled={loadingPlus} className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 p-2">+</button>
+                    
                     <div className="flex flex-col">
                         <p>Choose one*</p>
                         <div>
-                            <input type="radio" id="block" name="SB" className="border border-gray-300 rounded p-2" value="block"/>
+                            <input type="radio" id="block" name="SB" className="border border-gray-300 rounded p-2" value="block" />
                             <label htmlFor="create"> Number of Blocks</label>
                             <p>
-                                
+
                             </p>
-                            <input type="radio" id="slot" name="SB" className="border border-gray-300 rounded p-2" value="slot"/>
+                            <input type="radio" id="slot" name="SB" className="border border-gray-300 rounded p-2" value="slot" />
                             <label htmlFor="create"> Minutes per Time Slot</label>
                         </div>
 
                         <div>
                             <label htmlFor="create"> Number* </label>
-                            <input type="number" id="number" name="number" ref={numSB} className="border border-gray-300 rounded p-2" min="1"/>  
+                            <input type="number" id="number" name="number" ref={numSB} className="border border-gray-300 rounded p-2" min="1" />
                         </div>
                     </div>
 
@@ -127,18 +154,18 @@ export default function create() {
 
                     <div className="flex flex-col">
                         <label htmlFor="create">Number of Votes per Time Slot</label>
-                        <input type="number" id="numSlot" name="numSlot" ref={numSlot} className="border border-gray-300 rounded p-2" min="0"/>  
+                        <input type="number" id="numSlot" name="numSlot" ref={numSlot} className="border border-gray-300 rounded p-2" min="0" />
                     </div>
 
                     <div className="flex flex-col">
                         <label htmlFor="create">Number of Votes per Person</label>
-                        <input type="number" id="numPerson" name="numPerson" ref={numPerson} className="border border-gray-300 rounded p-2" min="0"/>  
+                        <input type="number" id="numPerson" name="numPerson" ref={numPerson} className="border border-gray-300 rounded p-2" min="0" />
                     </div>
 
                     <div className="flex flex-col">
                         <p>Deadline for the poll</p>
-                        <input type="date" id="deadlineDate" name="deadlineDate" ref={deadlineDate} className="border border-gray-300 rounded p-2"/>
-                        <input type="time" id="deadlineTime" name="deadlineTime" ref={deadlineTime} className="border border-gray-300 rounded p-2"/>
+                        <input type="date" id="deadlineDate" name="deadlineDate" ref={deadlineDate} className="border border-gray-300 rounded p-2" />
+                        <input type="time" id="deadlineTime" name="deadlineTime" ref={deadlineTime} className="border border-gray-300 rounded p-2" />
                     </div>
 
                     <div>
