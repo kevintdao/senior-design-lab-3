@@ -8,10 +8,11 @@ export default function create() {
     const dates = useRef();
     const start = useRef();
     const end = useRef();
-    const [loading, setLoading] = useState(false);
+    const [loadingPlus, setLoadingPlus] = useState(false);
     const numSB = useRef();
     const numSlot = useRef();
     const numPerson = useRef();
+    const [loadingPublish, setLoadingPublish] = useState(false);
 
     async function handleSubmit(e){
         // e.preventDefault();
@@ -36,40 +37,42 @@ export default function create() {
         //     console.log(e);
         //     setError('Failed to create an account');
         // }
-        setLoading(false)
+        setLoadingPlus(false);
+        setLoadingPublish(false);
     }
 
     return PrivateRoute(
         <div>
-        Create Poll Page
             <form action="#" method="POST" onSubmit={handleSubmit} className="flex items-center justify-center py-2">
                 <div className="w-1/2 max-w-md space-y-2 p-4 rounded-md bg-white shadow-md border border-gray-200 mt-10">
                     
                     <div className="flex flex-col">
-                        <label htmlFor="create">Title:</label>
+                        <label htmlFor="create">Title*</label>
                         <input type="text" id="title" name="title" ref={title} className="border border-gray-300 rounded p-2"/>
                     </div>
 
                     <div className="flex flex-col">
-                        <label htmlFor="create">Location:</label>
+                        <label htmlFor="create">Location</label>
                         <input type="text" id="location" name="location" ref={location} className="border border-gray-300 rounded p-2"/>
                     </div>
 
                     <div className="flex flex-col">
-                        <label htmlFor="create">Notes/Comments:</label>
+                        <label htmlFor="create">Notes/Comments</label>
                         <input type="text" id="notes" name="notes" ref={notes} className="border border-gray-300 rounded p-2"/>
                     </div>
 
                     <div className="flex flex-col">
-                        <label htmlFor="create">Dates:</label>
+                        <label htmlFor="create">Date*</label>
                         <input type="date" id="date" name="date" ref={dates} className="border border-gray-300 rounded p-2"/>
+                        <p>Start Time*</p>
                         <input type="time" id="start" name="start" ref={start} className="border border-gray-300 rounded p-2"/>
+                        <p>End Time*</p>
                         <input type="time" id="end" name="end" ref={end} className="border border-gray-300 rounded p-2"/>                   
-                        <button disabled={loading} className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 p-2">+</button>
+                        <button className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 p-2" onclick="myFunction()">+</button>
                     </div>
 
                     <div className="flex flex-col">
-                        <p>Choose one:</p>
+                        <p>Choose one*</p>
                         <div>
                             <input type="radio" id="slots" name="slots" className="border border-gray-300 rounded p-2" value="Slots"/>
                             <label htmlFor="create"> Number of Blocks</label>
@@ -80,13 +83,13 @@ export default function create() {
                         </div>
 
                         <div>
-                            <label htmlFor="create"> Number </label>
+                            <label htmlFor="create"> Number* </label>
                             <input type="number" id="number" name="number" ref={numSB} className="border border-gray-300 rounded p-2" min="1"/>  
                         </div>
                     </div>
 
                     <div className="flex flex-col">
-                        <label htmlFor="create">Time Zone (US):</label>
+                        <label htmlFor="create">Time Zone (US)</label>
                         <select className="border border-gray-300 rounded p-2">
                             <option value="select">Select One</option>
                             <option value="HST">HST</option>
@@ -109,8 +112,13 @@ export default function create() {
                     </div>
 
                     <div className="flex flex-col">
-                        <label htmlFor="create">Number of Votes per Person</label>
-                        <input type="number" id="numPerson" name="numPerson" ref={numPerson} className="border border-gray-300 rounded p-2" min="0"/>  
+                        <p>Deadline for the poll</p>
+                        <input type="date" id="deadlineDate" name="deadlineDate" ref={dates} className="border border-gray-300 rounded p-2"/>
+                        <input type="time" id="deadlineTime" name="deadlineTime" ref={start} className="border border-gray-300 rounded p-2"/>
+                    </div>
+
+                    <div className="flex flex-col">
+                        <button disabled={loadingPublish} className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 p-2">Publish</button>
                     </div>
 
                 </div>
