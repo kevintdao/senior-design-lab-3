@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useAuth } from '../AuthContext'
 import { query, collection, where, orderBy, getDocs } from '@firebase/firestore'
 import { db } from '../utils/firebase'
+import Popup from 'reactjs-popup'
+import 'reactjs-popup/dist/index.css'
 
 export default function AllPolls() {
     const { currentUser } = useAuth();
@@ -49,7 +51,7 @@ export default function AllPolls() {
         const polls = props.polls
         if(polls.length == 0){
             return (
-                <p>No Active Poll(s)</p>
+                <p>No Polls</p>
             )
         }
         else{
@@ -61,7 +63,7 @@ export default function AllPolls() {
                             <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">Start Date</th>
                             <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">End Date</th>
                             <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">Timezone</th>
-                            <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">More Info</th>
+                            <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">Invite</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -69,8 +71,6 @@ export default function AllPolls() {
                         {polls.map((poll, i) => {
                             const [sDay, sMonth, sDate, sYear] = poll.data.start.toDate().toString().split(" ");
                             const [eDay, eMonth, eDate, eYear] = poll.data.end.toDate().toString().split(" ");
-                            const pollLink = `/poll/${poll.id}`
-                            const editLink = `/poll/edit?id=${poll.id}`
 
                             return (
                                 <tr key={i}>
@@ -79,10 +79,14 @@ export default function AllPolls() {
                                     <td className="px-2 py-3 text-sm font-medium text-gray-900">{eMonth} {eDate} {eYear}</td>
                                     <td className="px-2 py-3 text-sm font-medium text-gray-900">{poll.data.timezone}</td>
                                     <td className="px-2 py-3 text-sm font-medium text-gray-900">
-                                        <a href={pollLink} className="text-indigo-600 hover:text-indigo-900">View</a>
+                                        <InvitePopup />
                                     </td>
                                     <td className="px-2 py-3 text-sm font-medium text-gray-900">
-                                        <a href={editLink} className="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        <div className="flex flex-row space-x-1">
+                                            <a href={`/poll/${poll.id}`} className="text-indigo-600 hover:text-indigo-900">View</a>
+                                            <p>/</p>
+                                            <a href={`/poll/edit?id=${poll.id}`} className="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        </div>
                                     </td>
                                 </tr>
                             )
@@ -91,6 +95,14 @@ export default function AllPolls() {
                 </table>
             )
         }
+    }
+
+    function InvitePopup(){
+        return (
+            <Popup trigger={<a className="text-indigo-600 hover:text-indigo-900 cursor-pointer">Invite</a>} modal>
+                <div>Popup</div>
+            </Popup>
+        )
     }
 
     return (
