@@ -49,7 +49,7 @@ export default function AllPolls() {
         const polls = props.polls
         if (polls.length == 0) {
             return (
-                <p>No Polls</p>
+                <p className="px-2">No Polls</p>
             )
         }
         else {

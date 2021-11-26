@@ -23,5 +23,6 @@ export default function mailAPI(req, res) {
     res.status(200).json({ status: 'Ok' })
   }).catch(error => {
     console.log(error);
+    res.status(400).json({ status: 'Error' })
   })
 }
