@@ -4,10 +4,12 @@ import { useAuth } from '../AuthContext'
 import Alert from './Alert'
 
 export default function SignUp() {
+    const fnameRef = useRef();
+    const lnameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
-    const { signup } = useAuth();
+    const { signup, updateName } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const router = useRouter();
@@ -27,9 +29,12 @@ export default function SignUp() {
             setError('')
             // prevent user from creating multiple accounts by clicking signup button repeatedly
             setLoading(true)
-            await signup(emailRef.current.value, passwordRef.current.value);
+            await signup(emailRef.current.value, passwordRef.current.value).then(async (userCredential) => {
+                await updateName(userCredential.user, fnameRef.current.value, lnameRef.current.value)
+            })
             router.push('/dashboard');
-        } catch {
+        } catch(e) {
+            console.log(e);
             setError('Failed to create an account');
         }
         setLoading(false)
@@ -43,6 +48,16 @@ export default function SignUp() {
 
                     {/* error alert */}
                     {error && <Alert text={error} />}
+
+                    <div className="flex flex-col">
+                        <label htmlFor="login">First Name:</label>
+                        <input type="text" id="fname" name="fname" ref={fnameRef} className="border border-gray-300 rounded p-2"/>
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label htmlFor="login">Last Name:</label>
+                        <input type="text" id="lname" name="lname" ref={lnameRef} className="border border-gray-300 rounded p-2"/>
+                    </div>
 
                     <div className="flex flex-col">
                         <label htmlFor="login">Email:</label>
