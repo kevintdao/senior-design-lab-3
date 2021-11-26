@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, ReactDOM } from 'react'
 import { useAuth } from '../AuthContext'
 import { query, collection, where, orderBy, getDocs } from '@firebase/firestore'
 import { db } from '../utils/firebase'
@@ -8,11 +8,11 @@ import 'reactjs-popup/dist/index.css'
 export default function AllPolls() {
     const { currentUser } = useAuth();
     const [loading, setLoading] = useState(true);
-    const currentDate = new Date(); 
+    const currentDate = new Date();
     const [activePolls, setActivePolls] = useState([]);
     const [pastPolls, setPastPolls] = useState([]);
 
-    async function getPolls(email){
+    async function getPolls(email) {
         const output = [];
         const q = query(collection(db, "polls"), where("email", "==", email), orderBy("end"));
         const snapshot = await getDocs(q);
@@ -30,12 +30,7 @@ export default function AllPolls() {
         var past = [];
         getPolls(currentUser.email).then(response => {
             response.forEach((poll) => {
-                if (currentDate < poll.data.end.toDate()){
-                    active.push(poll);
-                }
-                else{
-                    past.push(poll);
-                }
+                currentDate < poll.data.end.toDate() ? active.push(poll) : past.push(poll);
             })
             setActivePolls(active);
             setPastPolls(past);
@@ -43,18 +38,18 @@ export default function AllPolls() {
         })
     }, [])
 
-    if(loading){
+    if (loading) {
         return <div></div>
     }
 
-    function Polls(props){
+    function Polls(props) {
         const polls = props.polls
-        if(polls.length == 0){
+        if (polls.length == 0) {
             return (
                 <p>No Polls</p>
             )
         }
-        else{
+        else {
             return (
                 <table className="divide-y divide-gray-200 min-w-full">
                     <thead className="bg-gray-50">
@@ -79,7 +74,7 @@ export default function AllPolls() {
                                     <td className="px-2 py-3 text-sm font-medium text-gray-900">{eMonth} {eDate} {eYear}</td>
                                     <td className="px-2 py-3 text-sm font-medium text-gray-900">{poll.data.timezone}</td>
                                     <td className="px-2 py-3 text-sm font-medium text-gray-900">
-                                        <InvitePopup />
+                                        <InvitePopup id={poll.id} />
                                     </td>
                                     <td className="px-2 py-3 text-sm font-medium text-gray-900">
                                         <div className="flex flex-row space-x-1">
@@ -97,12 +92,26 @@ export default function AllPolls() {
         }
     }
 
-    function InvitePopup(){
+    function InvitePopup(props) {
+        const id = props.id;
+
         return (
             <Popup trigger={<a className="text-indigo-600 hover:text-indigo-900 cursor-pointer">Invite</a>} modal>
-                <div>Popup</div>
+                {close => (
+                    <div className="container flex flex-col modal space-y-2 mb-2">
+                        <h1 className="text-4xl font-bold text-gray-900 py-3 text-center">Invite users</h1>
+                        <p>Enter emails in seperate line for the users you want to invite to this poll</p>
+                        <textarea name="users" id="users" cols="30" rows="7" className="border border-gray-300 rounded p-2 none"></textarea>
+                        <button onClick={() => { sendEmail(id); close(); }} className="bg-indigo-600 text-white hover:bg-indigo-700 rounded-md h-8">Submit</button>
+                    </div>
+                )}
             </Popup>
         )
+    }
+    function sendEmail(id) {
+        const users = document.getElementById("users").value.split("\n");
+        console.log(users);
+        console.log(id);
     }
 
     return (
