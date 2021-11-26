@@ -56,7 +56,7 @@ export default function NavBar() {
 
     return (
         <div className="shadow-md sticky top-0 z-50 bg-gray-800">
-            <div className="container max-w-4xl lg:mx-auto p-1 pl-4 pr-4">
+            <div className="container max-w-6xl lg:mx-auto p-1 pl-4 pr-4">
                 <Nav />
             </div>
 
