@@ -20,19 +20,18 @@ export default function create() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        var errorMsg = "Errors:\n";
+        var errorMsg = "";
 
-        if (isEmpty(title.current.value == "")) {
+        if (title.current.value == "") {
             errorMsg += "Enter a title!\n"
-            Enter()
         }
 
         // ADD: poll cannot be created in the past!
-        if (isEmpty(deadlineDate.current.value)) {
+        if (deadlineDate.current.value == "") {
             errorMsg += "Enter a valid deadline date!\n"
         }
 
-        if (isEmpty(deadlineTime.current.value)) {
+        if (deadlineTime.current.value == "") {
             errorMsg += "Enter a deadline Time!\n"
         }
 
@@ -40,7 +39,7 @@ export default function create() {
             errorMsg += "Make a selection: Number of Blocks or Minutes per Time Slot!\n"
         }
 
-        if (isEmpty(numSB.current.value)) {
+        if (numSB.current.value == "") {
             errorMsg += "Enter a number!\n"
         }
 
@@ -62,11 +61,6 @@ export default function create() {
         // }
 
         return setError(errorMsg.split('\n').map(str => <p>{str}</p>));
-    }
-
-    function isEmpty(val)
-    {
-        return val == "";
     }
 
     function addDate() {
