@@ -19,43 +19,56 @@ export default function create() {
     const [dateList, setDateList] = useState([]);
 
     async function handleSubmit(e) {
-        // e.preventDefault();
-        // var errorMsg = "";
+        e.preventDefault();
+        var errorMsg = "Errors:\n";
 
-        // if (isEmpty(title.current.value)) {
-        //     errorMsg += "Enter a title!\n\n"
-        // }
+        if (isEmpty(title.current.value == "")) {
+            errorMsg += "Enter a title!\n"
+            Enter()
+        }
 
-        // if (isEmpty(date.current.value)) {
-        //     errorMsg += "Enter a date!\n"
+        // ADD: poll cannot be created in the past!
+        if (isEmpty(deadlineDate.current.value)) {
+            errorMsg += "Enter a valid deadline date!\n"
+        }
+
+        if (isEmpty(deadlineTime.current.value)) {
+            errorMsg += "Enter a deadline Time!\n"
+        }
+
+        if (!document.getElementById('slot').checked && !document.getElementById('block').checked) {
+            errorMsg += "Make a selection: Number of Blocks or Minutes per Time Slot!\n"
+        }
+
+        if (isEmpty(numSB.current.value)) {
+            errorMsg += "Enter a number!\n"
+        }
+
+        if (document.getElementById('slot').checked && numSB.current.value < 5) {
+            errorMsg += "Time Slots must be at least 5 minutes!\n"
+        }
+
+        errorMsg += (date.current == null)
+        // if (date.current.value) {
+        //     errorMsg += "Enter a start time!"
         // }
 
         // if (isEmpty(start.current.value)) {
-        //     errorMsg += "Enter a start time!\n"
+        //     errorMsg += "Enter a start time!"
         // }
 
         // if (isEmpty(end.current.value)) {
-        //     errorMsg += "Enter an end time!\n"
+        //     errorMsg += "Enter an end time!"
         // }
 
-        // if (!document.getElementById('slot').checked && !document.getElementById('block').checked) {
-        //     errorMsg += "Make a selection: Number of Blocks or Minutes per Time Slot!\n"
-        // }
-
-        // if (document.getElementById('slot').checked && numSB.current.value < 5) {
-        //     errorMsg += "Time Slots must be at least 5 minutes!\n"
-        // }
-
-        // if (isEmpty(numSB.current.value)) {
-        //     errorMsg += "Enter a number!\n"
-        // }
-
-        //return setError(errorMsg);
+        return setError(errorMsg.split('\n').map(str => <p>{str}</p>));
     }
 
-    // TODO: the functionality of + button 
-    // add components/class for the list of dates
-    // and in the render() function use the list to print all of them
+    function isEmpty(val)
+    {
+        return val == "";
+    }
+
     function addDate() {
         setDateList(dateList.concat(
             <PollTime key={dateList.length} date={date} start={start} end={end} index={dateList.length} />
@@ -132,7 +145,8 @@ export default function create() {
 
                             <div>
                                 <input type="radio" id="slot" name="SB" className="border border-gray-300 rounded p-2" value="slot" />
-                                <label htmlFor="slot"> Minutes per Time Slot</label>
+                                <label htmlFor="slot"> Minutes per Time Slot!</label>
+                                <div>Note*: Minutes per time slot must be at least 5</div>
                             </div>
                         </div>
 
