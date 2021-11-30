@@ -30,14 +30,8 @@ export default function create() {
         if (deadlineDate.current.value == "") {
             errorMsg += "Enter a deadline date!\n";
         }
-        else if (deadlineTime.current.value == "") {
-            errorMsg += "Enter a deadline Time!\n";
-        }
-        else if (!greaterThanCurrentDate(deadlineDate.current.value, deadlineTime.current.value)) {
-            errorMsg += "Enter a valid deadline!\n";
-        }
 
-        if (!document.getElementById('slot').checked && !document.getElementById('block').checked) {
+        if (!document.getElementById('slots').checked && !document.getElementById('blocks').checked) {
             errorMsg += "Make a selection: Number of Blocks or Minutes per Time Slot!\n"
         }
 
@@ -45,7 +39,7 @@ export default function create() {
             errorMsg += "Enter a number!\n"
         }
 
-        if (document.getElementById('slot').checked && numSB.current.value < 5) {
+        if (document.getElementById('slots').checked && numSB.current.value < 5) {
             errorMsg += "Time Slots must be at least 5 minutes!\n"
         }
 
@@ -68,12 +62,14 @@ export default function create() {
         else{
             // add new document for poll
             const newPollRef = doc(collection(db, 'polls'));
-            insertPoll(newPollRef);
+            getBlocks();
+            // insertPoll(newPollRef);
         }
     }
 
     async function insertPoll(newPollRef) {
-        let [year, month, date] = deadlineDateRef.current.value.split('-');
+        let [year, month, date] = deadlineDate.current.value.split('-');
+        let blocks = getBlocks();
 
         await setDoc(newPollRef, {
             email: currentUser.email,
@@ -88,12 +84,43 @@ export default function create() {
         });
     }
 
-    function insertBlock() {
+    function getBlocks() {
+        let blocks = document.querySelectorAll('[id^="block-"]');
 
+        blocks.forEach((block) => {
+            let date = block.querySelector('[id^="date"]').value;
+            let start = block.querySelector('[id^="start"]').value;
+            let end = block.querySelector('[id^="end"]').value;
+
+            splitTime(start, end, 'blocks', 5);
+            splitTime(start, end, 'slots', 15);
+        })
+
+        return [];
     }
 
-    function insertTime() {
+    function splitTime(start, end, type, number) {
+        let [startHour, startMin] = start.split(':');
+        let [endHour, endMin] = end.split(':');
+        
+        let startTime = startHour * 60 + (startMin - 240);
+        let endTime = endHour * 60 + (endMin - 240);
+        
+        let blockDuration = endTime - startTime;
 
+        let output = [];
+        if(type == 'blocks'){
+            let eachBlockDuration = blockDuration / number;
+            
+            for(let i = 0; i < number; i++){
+                // convert to hour and min
+                let blockStart = startTime;
+            }
+        }
+        else{
+            let numOfSlot = blockDuration / number;
+            console.log(numOfSlot);
+        }
     }
 
     function addDate() {
@@ -165,13 +192,13 @@ export default function create() {
                         <p>Choose one*</p>
                         <div>
                             <div>
-                                <input type="radio" id="block" name="SB" className="border border-gray-300 rounded p-2" value="block" />
-                                <label htmlFor="block"> Number of Blocks</label>
+                                <input type="radio" id="blocks" name="SB" className="border border-gray-300 rounded p-2" value="block" />
+                                <label htmlFor="blocks"> Number of Blocks</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="slot" name="SB" className="border border-gray-300 rounded p-2" value="slot" />
-                                <label htmlFor="slot"> Minutes per Time Slot!</label>
+                                <input type="radio" id="slots" name="SB" className="border border-gray-300 rounded p-2" value="slot" />
+                                <label htmlFor="slots"> Minutes per Time Slot!</label>
                                 <div>Note*: Minutes per time slot must be at least 5</div>
                             </div>
                         </div>
