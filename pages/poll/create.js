@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { collection, doc, setDoc, addDoc } from 'firebase/firestore'
+import { useRouter } from 'next/router'
 import { db } from '../../utils/firebase'
 import PrivateRoute from '../../components/PrivateRoute'
 import Alert from '../../components/Alert'
@@ -18,6 +19,7 @@ export default function create() {
     const [error, setError] = useState('');
     const [dateList, setDateList] = useState([]);
     const { currentUser } = useAuth();
+    const router = useRouter();
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -123,7 +125,11 @@ export default function create() {
             votes_per_user: numPerson.current.value
         })
 
-        getBlocks(newPoll.id);
+        const blocks = getBlocks(newPoll.id);
+
+        blocks.then((response) => {
+            router.push('/dashboard');
+        })
     }
 
     async function getBlocks(pollId) {
@@ -150,7 +156,6 @@ export default function create() {
                 votes: votes
             })
         })
-        console.log(output);
     }
 
     function splitTime(date, start, end, type, number) {
@@ -210,6 +215,23 @@ export default function create() {
             </div>
         )
     }
+
+    // function removeDate() {
+    //     if(dateList.length > 0){
+    //         let removedDate = dateList.pop();
+    //         let element = document.getElementById(`block-${removedDate.key}`);
+    //         element.remove();
+    //     }
+    //     setDateList(dateList);
+    // }
+
+    // function RemoveButton() {
+    //     return (
+    //         <div>
+    //             <button onClick={removeDate} className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 p-2">Remove last Date</button>
+    //         </div>
+    //     )
+    // }
 
     return PrivateRoute(
         <div>
@@ -300,6 +322,7 @@ export default function create() {
                     {dateList}
 
                     <AddButton />
+                    {/* <RemoveButton /> */}
 
                     <div>
                         <button onClick={handleSubmit} className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 p-2">Publish</button>
