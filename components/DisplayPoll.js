@@ -14,9 +14,8 @@ export default function DisplayPoll(props) {
 
                 const blockDate = data.date.toDate().toString().split(" ");
                 const times = data.time;
-                const votes = data.vote;
 
-                return <PollBlock key={i} id={id} date={blockDate} times={times} votes={votes} vps={vps} vpu={vpu}/>
+                return <PollBlock key={i} id={id} date={blockDate} times={times} vps={vps} vpu={vpu}/>
             })}
         </div>
     )

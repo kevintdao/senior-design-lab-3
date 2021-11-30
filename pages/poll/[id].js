@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { doc, getDoc, getDocs, collection, query, where, orderBy } from 'firebase/firestore'
+import { doc, getDoc, getDocs, collection, query, where, orderBy, updateDoc } from 'firebase/firestore'
 import { db } from '../../utils/firebase'
 import DisplayPoll from '../../components/DisplayPoll'
 
@@ -10,6 +10,7 @@ export default function Poll() {
     const [error, setError] = useState('');
     const [poll, setPoll] = useState();
     const [blocks, setBlocks] = useState([]);
+    const [times, setTimes] = useState([]);
     const [loading, setLoading] = useState(true);
 
     async function getPoll(id){
@@ -25,26 +26,35 @@ export default function Poll() {
         }
     }
 
-    async function getBlocks(pollId){
-        const output = [];
-        const q = query(collection(db, "blocks"), where("poll", "==", pollId), orderBy("date"));
-        const snapshot = await getDocs(q);
-        snapshot.forEach((doc) => {
-            output.push({
-                id: doc.id,
-                data: doc.data()
-            });
-        });
-        return output;
+    async function getBlock(pollId){
+        const ref = collection(db, `polls/${pollId}/blocks`);
+        const snapshot = await getDocs(ref);
+
+        return snapshot;
+    }
+
+    async function getTime(blockId){
+        
+    }
+
+    function handleSubmit(){
+
     }
 
     useEffect(() => {
         getPoll(id).then(response => {
             setPoll(response);
+            setLoading(false);  
         })
-        getBlocks(id).then(response => {
-            setBlocks(response);
-            setLoading(false);
+        getBlock(id).then(response => {
+            var blocks = [];
+            response.forEach((block) => {
+                blocks.push({
+                    'id': block.id,
+                    'data': block.data()
+                })
+            })
+            setBlocks(blocks);
         })
     }, [])
 
@@ -79,8 +89,13 @@ export default function Poll() {
                 </tbody>
             </table>
             <hr className="mb-2"/>
-            <DisplayPoll blocks={blocks} vps={poll.votes_per_slot} vpu={poll.votes_per_user} />
-            <button className="bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium">Submit</button>
+            <div>
+                <label htmlFor="name">Enter your name: </label>
+                <input type="text" id='name' />
+            </div>
+            <hr className="mb-2"/>
+            {/* <DisplayPoll blocks={blocks} vps={poll.votes_per_slot} vpu={poll.votes_per_user} /> */}
+            <button className="bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium" onClick={handleSubmit}>Submit</button>
         </div>
     )
 }
