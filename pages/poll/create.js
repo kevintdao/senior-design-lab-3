@@ -26,13 +26,14 @@ export default function create() {
             errorMsg += "Enter a title!\n"
         }
 
-        // ADD: poll cannot be created in the past!
         if (deadlineDate.current.value == "") {
-            errorMsg += "Enter a valid deadline date!\n"
+            errorMsg += "Enter a deadline date!\n";
         }
-
-        if (deadlineTime.current.value == "") {
-            errorMsg += "Enter a deadline Time!\n"
+        else if (deadlineTime.current.value == "") {
+            errorMsg += "Enter a deadline Time!\n";
+        }
+        else if (!greaterThanCurrentDate(deadlineDate.current.value, deadlineTime.current.value)) {
+            errorMsg += "Enter a valid deadline!\n";
         }
 
         if (!document.getElementById('slot').checked && !document.getElementById('block').checked) {
@@ -47,7 +48,7 @@ export default function create() {
             errorMsg += "Time Slots must be at least 5 minutes!\n"
         }
 
-        errorMsg += (date.current == null)
+        // errorMsg += (date.current == null)
         // if (date.current.value) {
         //     errorMsg += "Enter a start time!"
         // }
@@ -61,6 +62,33 @@ export default function create() {
         // }
 
         return setError(errorMsg.split('\n').map(str => <p>{str}</p>));
+    }
+
+    function greaterThanCurrentDate(d1, t1){
+        let newDate = new Date();
+        let currDay = newDate.getDate();
+        let currMonth = newDate.getMonth() + 1;
+        let currYear = newDate.getFullYear();
+        let currHours = newDate.getHours();
+        let currMinutes = newDate.getMinutes();
+        let d2 = currYear + '-' + currMonth + '-' + currDay;
+        let t2 = currHours + ':' + currMinutes;
+        if (currHours < 10)
+        {
+            t2 = '0' + currHours + ':' + currMinutes;  
+        }
+
+        if(d1 > d2)
+        {
+            return true;
+        }
+        
+        if(d1 === d2 && t1 > t2)
+        {
+            return true;
+        }
+        
+        return false;
     }
 
     function addDate() {
