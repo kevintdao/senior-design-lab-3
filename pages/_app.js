@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../styles/popup.css'
 import { AuthProvider } from '../AuthContext'
 import NavBar from '../components/NavBar'
 
