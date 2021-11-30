@@ -23,19 +23,23 @@ export default function create() {
         e.preventDefault();
         var errorMsg = "";
 
-        if (title.current.value == "") {
+        if (title.current.value === "") {
             errorMsg += "Enter a title!\n"
         }
 
-        if (deadlineDate.current.value == "") {
+        if (deadlineDate.current.value === "") {
             errorMsg += "Enter a deadline date!\n";
+        }
+        // since there's only a deadline date, I set the deadline time to be 11:59 PM
+        else if (!greaterThanCurrentDate(deadlineDate.current.value, "23:59")) {
+            errorMsg += "Enter a valid deadline date!\n";
         }
 
         if (!document.getElementById('slots').checked && !document.getElementById('blocks').checked) {
             errorMsg += "Make a selection: Number of Blocks or Minutes per Time Slot!\n"
         }
 
-        if (numSB.current.value == "") {
+        if (numSB.current.value === "") {
             errorMsg += "Enter a number!\n"
         }
 
@@ -43,20 +47,30 @@ export default function create() {
             errorMsg += "Time Slots must be at least 5 minutes!\n"
         }
 
-        // errorMsg += (date.current == null)
-        // if (date.current.value) {
-        //     errorMsg += "Enter a start time!"
-        // }
+        if (dateList.length > 0) {
+            for (var i = 0; i < dateList.length; i++) {
+                let d = document.getElementById("date-" + i).value;
+                let s = document.getElementById("start-" + i).value;
+                let e = document.getElementById("end-" + i).value;
+                if (d == "" || s == "" || e == "") {
+                    errorMsg += "Enter valid dates and times!\n";
+                }
+                else if (s >= e)
+                {
+                    errorMsg += "Start times must be before End times!\n";
+                }
+                // start time cannot be same as current time or anytime before that
+                else if (!greaterThanCurrentDate(d, s))
+                {
+                    errorMsg += "Invlaid times or dates!\n";
+                }
+            }
+        }
+        else {
+            errorMsg += "Add a date to the poll!\n";
+        }
 
-        // if (isEmpty(start.current.value)) {
-        //     errorMsg += "Enter a start time!"
-        // }
-
-        // if (isEmpty(end.current.value)) {
-        //     errorMsg += "Enter an end time!"
-        // }
-
-        if (error){
+        if (errorMsg != ""){
             return setError(errorMsg.split('\n').map(str => <p>{str}</p>));
         }
         else{
@@ -65,6 +79,35 @@ export default function create() {
             getBlocks();
             // insertPoll(newPollRef);
         }
+    }
+
+    function greaterThanCurrentDate(d1, t1) {
+        let newDate = new Date();
+        let currDay = newDate.getDate();
+        let currMonth = newDate.getMonth() + 1;
+        let currYear = newDate.getFullYear();
+        let currHours = newDate.getHours();
+        let currMinutes = newDate.getMinutes();
+
+        let d2 = currYear + '-' + currMonth + '-' + currDay;
+        let t2 = currHours + ':' + currMinutes;
+
+        if (currHours < 10)
+        {
+            t2 = '0' + currHours + ':' + currMinutes;  
+        }
+
+        if(d1 > d2)
+        {
+            return true;
+        }
+        
+        if(d1 == d2 && t1 > t2)
+        {
+            return true;
+        }
+        
+        return false;
     }
 
     async function insertPoll(newPollRef) {
@@ -153,7 +196,7 @@ export default function create() {
     function AddButton() {
         return (
             <div>
-                <button onClick={addDate} className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 p-2">+</button>
+                <button onClick={addDate} className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 p-2">Add a Date</button>
             </div>
         )
     }
