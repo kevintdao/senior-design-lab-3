@@ -53,13 +53,13 @@ export default function Poll() {
     }
 
     if (!poll) {
-        return <div className="container mt-2 text-red-500">
+        return <div className="container max-w-6xl lg:mx-auto mt-2 text-red-500">
             <h1>{error}</h1>
         </div>
     }
 
     return (
-        <div className="container mt-2">
+        <div className="container max-w-6xl lg:mx-auto mt-2">
             <h2 className="text-center">{poll.title}</h2>
             <p className="text-center">by <strong>{poll.email}</strong></p>
             <table className="table-auto mt-2 mb-2">
@@ -79,7 +79,7 @@ export default function Poll() {
                 </tbody>
             </table>
             <hr className="mb-2"/>
-            <DisplayPoll blocks={blocks} />
+            <DisplayPoll blocks={blocks} vps={poll.votes_per_slot} vpu={poll.votes_per_user} />
             <button className="bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium">Submit</button>
         </div>
     )

@@ -47,6 +47,8 @@ export default function AllPolls() {
 
     function Polls(props) {
         const polls = props.polls
+        const invite = props.invite
+
         if (polls.length == 0) {
             return (
                 <p className="px-2">No Polls</p>
@@ -77,13 +79,13 @@ export default function AllPolls() {
                                     <td className="px-2 py-3 text-sm font-medium text-gray-900">{eMonth} {eDate} {eYear}</td>
                                     <td className="px-2 py-3 text-sm font-medium text-gray-900">{poll.data.timezone}</td>
                                     <td className="px-2 py-3 text-sm font-medium text-gray-900">
-                                        <InvitePopup id={poll.id} />
+                                        {invite == true && <InvitePopup id={poll.id} />}
                                     </td>
                                     <td className="px-2 py-3 text-sm font-medium text-gray-900">
                                         <div className="flex flex-row space-x-1">
                                             <a href={`/poll/${poll.id}`} className="text-indigo-600 hover:text-indigo-900">View</a>
-                                            <p>/</p>
-                                            <a href={`/poll/edit?id=${poll.id}`} className="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                            {invite == true && <p>/</p>}
+                                            {invite == true && <a href={`/poll/edit?id=${poll.id}`} className="text-indigo-600 hover:text-indigo-900">Edit</a>}
                                         </div>
                                     </td>
                                 </tr>
@@ -142,12 +144,12 @@ export default function AllPolls() {
 
             <div className="border rounded-md mb-2 w-full p-2 bg-white shadow-sm">
                 <h5 className="text-center mb-2">Active Poll(s)</h5>
-                <Polls polls={activePolls} />
+                <Polls polls={activePolls} invite={true} />
             </div>
 
             <div className="border rounded-md mb-2 w-full p-2 bg-white shadow-sm">
                 <h5 className="text-center mb-2">Past Poll(s)</h5>
-                <Polls polls={pastPolls} />
+                <Polls polls={pastPolls} invite={false}/>
             </div>
         </div>
     )
