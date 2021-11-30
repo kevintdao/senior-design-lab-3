@@ -7,55 +7,69 @@ import PollTime from '../../components/PollTime';
 import { useAuth } from '../../AuthContext'
 
 export default function create() {
-    const titleRef = useRef();
-    const locationRef = useRef();
-    const notesRef = useRef();
-    const numSBRef = useRef();
-    const numSlotRef = useRef();
-    const numPersonRef = useRef();
-    const deadlineDateRef = useRef();
-    const timezoneRef = useRef();
+    const title = useRef();
+    const location = useRef();
+    const notes = useRef();
+    const numSB = useRef();
+    const numSlot = useRef();
+    const numPerson = useRef();
+    const deadlineDate = useRef();
+    const timezone = useRef();
     const [error, setError] = useState('');
     const [dateList, setDateList] = useState([]);
     const { currentUser } = useAuth();
 
     async function handleSubmit(e) {
         e.preventDefault();
-        // var errorMsg = "";
+        var errorMsg = "";
 
-        // if (isEmpty(title.current.value)) {
-        //     errorMsg += "Enter a title!\n\n"
-        // }
+        if (title.current.value == "") {
+            errorMsg += "Enter a title!\n"
+        }
 
-        // if (isEmpty(date.current.value)) {
-        //     errorMsg += "Enter a date!\n"
+        if (deadlineDate.current.value == "") {
+            errorMsg += "Enter a deadline date!\n";
+        }
+        else if (deadlineTime.current.value == "") {
+            errorMsg += "Enter a deadline Time!\n";
+        }
+        else if (!greaterThanCurrentDate(deadlineDate.current.value, deadlineTime.current.value)) {
+            errorMsg += "Enter a valid deadline!\n";
+        }
+
+        if (!document.getElementById('slot').checked && !document.getElementById('block').checked) {
+            errorMsg += "Make a selection: Number of Blocks or Minutes per Time Slot!\n"
+        }
+
+        if (numSB.current.value == "") {
+            errorMsg += "Enter a number!\n"
+        }
+
+        if (document.getElementById('slot').checked && numSB.current.value < 5) {
+            errorMsg += "Time Slots must be at least 5 minutes!\n"
+        }
+
+        // errorMsg += (date.current == null)
+        // if (date.current.value) {
+        //     errorMsg += "Enter a start time!"
         // }
 
         // if (isEmpty(start.current.value)) {
-        //     errorMsg += "Enter a start time!\n"
+        //     errorMsg += "Enter a start time!"
         // }
 
         // if (isEmpty(end.current.value)) {
-        //     errorMsg += "Enter an end time!\n"
+        //     errorMsg += "Enter an end time!"
         // }
 
-        // if (!document.getElementById('slot').checked && !document.getElementById('block').checked) {
-        //     errorMsg += "Make a selection: Number of Blocks or Minutes per Time Slot!\n"
-        // }
-
-        // if (document.getElementById('slot').checked && numSB.current.value < 5) {
-        //     errorMsg += "Time Slots must be at least 5 minutes!\n"
-        // }
-
-        // if (isEmpty(numSB.current.value)) {
-        //     errorMsg += "Enter a number!\n"
-        // }
-
-        //return setError(errorMsg);
-
-        // add new document for poll
-        const newPollRef = doc(collection(db, 'polls'));
-        insertPoll(newPollRef);
+        if (error){
+            return setError(errorMsg.split('\n').map(str => <p>{str}</p>));
+        }
+        else{
+            // add new document for poll
+            const newPollRef = doc(collection(db, 'polls'));
+            insertPoll(newPollRef);
+        }
     }
 
     async function insertPoll(newPollRef) {
@@ -64,13 +78,13 @@ export default function create() {
         await setDoc(newPollRef, {
             email: currentUser.email,
             end: new Date(year, month - 1, date, 0, 0, 0),
-            location: locationRef.current.value,
-            notes: notesRef.current.value,
+            location: location.current.value,
+            notes: notes.current.value,
             start: new Date(),
-            timezone: timezoneRef.current.value,
-            title: titleRef.current.value,
-            votes_per_slot: numSlotRef.current.value,
-            votes_per_user: numPersonRef.current.value
+            timezone: timezone.current.value,
+            title: title.current.value,
+            votes_per_slot: numSlot.current.value,
+            votes_per_user: numPerson.current.value
         });
     }
 
@@ -82,9 +96,6 @@ export default function create() {
 
     }
 
-    // TODO: the functionality of + button 
-    // add components/class for the list of dates
-    // and in the render() function use the list to print all of them
     function addDate() {
         setDateList(dateList.concat(
             <PollTime key={dateList.length} index={dateList.length} />
@@ -113,24 +124,24 @@ export default function create() {
                     <div className="flex md:flex-row md:space-x-2 justify-between flex-col">
                         <div className="flex flex-col w-full space-y-1">
                             <label htmlFor="title">Title*</label>
-                            <input type="text" id="title" name="title" ref={titleRef} className="border border-gray-300 rounded p-2" />
+                            <input type="text" id="title" name="title" ref={title} className="border border-gray-300 rounded p-2" />
                         </div>
 
                         <div className="flex flex-col w-full space-y-1">
                             <label htmlFor="location">Location</label>
-                            <input type="text" id="location" name="location" ref={locationRef} className="border border-gray-300 rounded p-2" />
+                            <input type="text" id="location" name="location" ref={location} className="border border-gray-300 rounded p-2" />
                         </div>
 
                         <div className="flex flex-col w-full space-y-1">
                             <label htmlFor="notes">Notes/Comments</label>
-                            <input type="text" id="notes" name="notes" ref={notesRef} className="border border-gray-300 rounded p-2" />
+                            <input type="text" id="notes" name="notes" ref={notes} className="border border-gray-300 rounded p-2" />
                         </div>
                     </div>
 
                     <div className="flex md:flex-row md:space-x-2 justify-between flex-col">
                         <div className="flex flex-col w-full space-y-1">
                             <p>Deadline for the poll</p>
-                            <input type="date" id="deadlineDate" name="deadlineDate" ref={deadlineDateRef} className="border border-gray-300 rounded p-2" />
+                            <input type="date" id="deadlineDate" name="deadlineDate" ref={deadlineDate} className="border border-gray-300 rounded p-2" />
                         </div>
 
                         <div className="flex flex-col w-full">
@@ -138,7 +149,7 @@ export default function create() {
 
                         <div className="flex flex-col w-full space-y-1">
                             <label htmlFor="timezone">Time Zone (US)</label>
-                            <select id="timezone" className="border border-gray-300 rounded p-2" ref={timezoneRef}>
+                            <select id="timezone" className="border border-gray-300 rounded p-2" ref={timezone}>
                                 <option value=""></option>
                                 <option value="HST">HST</option>
                                 <option value="AKST">AKST</option>
@@ -160,25 +171,26 @@ export default function create() {
 
                             <div>
                                 <input type="radio" id="slot" name="SB" className="border border-gray-300 rounded p-2" value="slot" />
-                                <label htmlFor="slot"> Minutes per Time Slot</label>
+                                <label htmlFor="slot"> Minutes per Time Slot!</label>
+                                <div>Note*: Minutes per time slot must be at least 5</div>
                             </div>
                         </div>
 
                         <div>
                             <label htmlFor="number"> Number* </label>
-                            <input type="number" id="number" name="number" ref={numSBRef} className="border border-gray-300 rounded p-2" min="1" />
+                            <input type="number" id="number" name="number" ref={numSB} className="border border-gray-300 rounded p-2" min="1" />
                         </div>
                     </div>
 
                     <div className="flex md:flex-row md:space-x-2 justify-between flex-col">
                         <div className="flex flex-col w-full space-y-1">
                             <label htmlFor="numSlot">Votes per Slot</label>
-                            <input type="number" id="numSlot" name="numSlot" ref={numSlotRef} className="border border-gray-300 rounded p-2" min="0" />
+                            <input type="number" id="numSlot" name="numSlot" ref={numSlot} className="border border-gray-300 rounded p-2" min="0" />
                         </div>
 
                         <div className="flex flex-col w-full space-y-1">
                             <label htmlFor="numPerson">Votes per Person</label>
-                            <input type="number" id="numPerson" name="numPerson" ref={numPersonRef} className="border border-gray-300 rounded p-2" min="0" />
+                            <input type="number" id="numPerson" name="numPerson" ref={numPerson} className="border border-gray-300 rounded p-2" min="0" />
                         </div>
                     </div>
 
