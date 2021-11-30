@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { collection, doc, setDoc } from 'firebase/firestore'
+import { collection, doc, setDoc, addDoc } from 'firebase/firestore'
 import { db } from '../../utils/firebase'
 import PrivateRoute from '../../components/PrivateRoute'
 import Alert from '../../components/Alert'
@@ -23,61 +23,59 @@ export default function create() {
         e.preventDefault();
         var errorMsg = "";
 
-        if (title.current.value === "") {
-            errorMsg += "Enter a title!\n"
-        }
+        // if (title.current.value === "") {
+        //     errorMsg += "Enter a title!\n"
+        // }
 
-        if (deadlineDate.current.value === "") {
-            errorMsg += "Enter a deadline date!\n";
-        }
-        // since there's only a deadline date, I set the deadline time to be 11:59 PM
-        else if (!greaterThanCurrentDate(deadlineDate.current.value, "23:59")) {
-            errorMsg += "Enter a valid deadline date!\n";
-        }
+        // if (deadlineDate.current.value === "") {
+        //     errorMsg += "Enter a deadline date!\n";
+        // }
+        // // since there's only a deadline date, I set the deadline time to be 11:59 PM
+        // else if (!greaterThanCurrentDate(deadlineDate.current.value, "23:59")) {
+        //     errorMsg += "Enter a valid deadline date!\n";
+        // }
 
-        if (!document.getElementById('slots').checked && !document.getElementById('blocks').checked) {
-            errorMsg += "Make a selection: Number of Blocks or Minutes per Time Slot!\n"
-        }
+        // if (!document.getElementById('slots').checked && !document.getElementById('blocks').checked) {
+        //     errorMsg += "Make a selection: Number of Blocks or Minutes per Time Slot!\n"
+        // }
 
-        if (numSB.current.value === "") {
-            errorMsg += "Enter a number!\n"
-        }
+        // if (numSB.current.value === "") {
+        //     errorMsg += "Enter a number!\n"
+        // }
 
-        if (document.getElementById('slots').checked && numSB.current.value < 5) {
-            errorMsg += "Time Slots must be at least 5 minutes!\n"
-        }
+        // if (document.getElementById('slots').checked && numSB.current.value < 5) {
+        //     errorMsg += "Time Slots must be at least 5 minutes!\n"
+        // }
 
-        if (dateList.length > 0) {
-            for (var i = 0; i < dateList.length; i++) {
-                let d = document.getElementById("date-" + i).value;
-                let s = document.getElementById("start-" + i).value;
-                let e = document.getElementById("end-" + i).value;
-                if (d == "" || s == "" || e == "") {
-                    errorMsg += "Enter valid dates and times!\n";
-                }
-                else if (s >= e)
-                {
-                    errorMsg += "Start times must be before End times!\n";
-                }
-                // start time cannot be same as current time or anytime before that
-                else if (!greaterThanCurrentDate(d, s))
-                {
-                    errorMsg += "Invlaid times or dates!\n";
-                }
-            }
-        }
-        else {
-            errorMsg += "Add a date to the poll!\n";
-        }
+        // if (dateList.length > 0) {
+        //     for (var i = 0; i < dateList.length; i++) {
+        //         let d = document.getElementById("date-" + i).value;
+        //         let s = document.getElementById("start-" + i).value;
+        //         let e = document.getElementById("end-" + i).value;
+        //         if (d == "" || s == "" || e == "") {
+        //             errorMsg += "Enter valid dates and times!\n";
+        //         }
+        //         else if (s >= e)
+        //         {
+        //             errorMsg += "Start times must be before End times!\n";
+        //         }
+        //         // start time cannot be same as current time or anytime before that
+        //         else if (!greaterThanCurrentDate(d, s))
+        //         {
+        //             errorMsg += "Invlaid times or dates!\n";
+        //         }
+        //     }
+        // }
+        // else {
+        //     errorMsg += "Add a date to the poll!\n";
+        // }
 
         if (errorMsg != ""){
             return setError(errorMsg.split('\n').map(str => <p>{str}</p>));
         }
         else{
             // add new document for poll
-            const newPollRef = doc(collection(db, 'polls'));
-            getBlocks();
-            // insertPoll(newPollRef);
+            insertPoll();
         }
     }
 
@@ -110,11 +108,10 @@ export default function create() {
         return false;
     }
 
-    async function insertPoll(newPollRef) {
+    async function insertPoll() {
         let [year, month, date] = deadlineDate.current.value.split('-');
-        let blocks = getBlocks();
 
-        await setDoc(newPollRef, {
+        const newPoll = await addDoc(collection(db, 'polls'), {
             email: currentUser.email,
             end: new Date(year, month - 1, date, 0, 0, 0),
             location: location.current.value,
@@ -124,22 +121,36 @@ export default function create() {
             title: title.current.value,
             votes_per_slot: numSlot.current.value,
             votes_per_user: numPerson.current.value
-        });
+        })
+
+        getBlocks(newPoll.id);
     }
 
-    function getBlocks() {
+    async function getBlocks(pollId) {
         let blocks = document.querySelectorAll('[id^="block-"]');
+        let type = document.getElementById('slots').checked ? 'slots' : 'blocks';
+        let number = document.getElementById('number').value;
 
-        blocks.forEach((block) => {
+        let output = [];
+        blocks.forEach(async (block, i) => {
             let date = block.querySelector('[id^="date"]').value;
             let start = block.querySelector('[id^="start"]').value;
             let end = block.querySelector('[id^="end"]').value;
 
-            splitTime(date, start, end, 'blocks', 5);
-            splitTime(date, start, end, 'slots', 15);
-        })
+            const currentBlock = splitTime(date, start, end, type, number);
+            let votes = {};
 
-        return [];
+            for(let i = 0; i < currentBlock.length; i++){
+                votes[i] = "";
+            }
+
+            const newBlock = await addDoc(collection(db, 'blocks'), {
+                blocks: currentBlock,
+                poll: pollId,
+                votes: votes
+            })
+        })
+        console.log(output);
     }
 
     function splitTime(date, start, end, type, number) {
@@ -162,12 +173,11 @@ export default function create() {
             
             output = createDates(startTime, endTime, number, numOfSlot, date);
         }
-        console.log(output);
+        return output;
     }
 
     function createDates(startTime, endTime, duration, slots, date){
         let [year, month, day] = date.split('-');
-        console.log(duration);
 
         let output = [];
         for(let i = 0; i < slots; i++){
