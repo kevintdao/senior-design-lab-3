@@ -6,7 +6,7 @@ export default function Alert(props) {
     const bgColor = props.bgColor ? props.bgColor : 'bg-red-100';
 
     return (
-        <div className={`border ${bgColor} ${borderColor} ${textColor} px-4 py-3 rounded`} role='alert'>
+        <div className={`border ${bgColor} ${borderColor} ${textColor} px-4 py-3 rounded mt-2`} role='alert'>
             {props.text}
         </div>
     )

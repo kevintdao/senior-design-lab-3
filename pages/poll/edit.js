@@ -58,7 +58,7 @@ export default function edit() {
                 <h1 className="text-4xl font-bold text-gray-900 py-3 container max-w-6xl lg:mx-auto">Edit Poll</h1>
             </div>
 
-            <div>
+            <div className="container max-w-6xl lg:mx-auto">
                 <PollForm type={"edit"} pollData={poll} blockData={blocks} id={id} />
             </div>
         </div>

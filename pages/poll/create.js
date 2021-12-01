@@ -117,7 +117,7 @@ export default function create() {
                 <h1 className="text-4xl font-bold text-gray-900 py-3 container max-w-6xl lg:mx-auto">Create Poll</h1>
             </div>
 
-            <div>
+            <div className="container max-w-6xl lg:mx-auto">
                 <PollForm type={"create"}/>
             </div>            
         </div>
