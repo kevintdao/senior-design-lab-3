@@ -25,7 +25,19 @@ export default function Poll() {
             return;
         }
     }
-
+    async function getBlocks(pollId){
+        const output = [];
+        const q = query(collection(db, "blocks"), where("poll", "==", pollId));
+        const snapshot = await getDocs(q);
+        snapshot.forEach((doc) => {
+            output.push({
+                id: doc.id,
+                data: doc.data()
+            });
+        });
+        console.log(output);
+        return output;
+    }
     function handleSubmit() {
         
     }
@@ -33,7 +45,10 @@ export default function Poll() {
     useEffect(() => {
         getPoll(id).then(response => {
             setPoll(response);
-            setLoading(false);  
+        })
+        getBlocks(id).then(response => {
+            setBlocks(response);
+            setLoading(false);
         })
     }, [])
 
@@ -73,7 +88,7 @@ export default function Poll() {
                 <input type="text" id='name' />
             </div>
             <hr className="mb-2"/>
-            {/* <DisplayPoll blocks={blocks} vps={poll.votes_per_slot} vpu={poll.votes_per_user} /> */}
+            <DisplayPoll blocks={blocks} vps={poll.votes_per_slot} vpu={poll.votes_per_user} />
             <button className="bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium" onClick={handleSubmit}>Submit</button>
         </div>
     )
