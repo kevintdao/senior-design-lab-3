@@ -3,6 +3,8 @@ import PollBlock from './PollBlock';
 
 export default function DisplayPoll(props) {
     const blocks = props.blocks;
+    const vps = props.vps;
+    const vpu = props.vpu;
 
     return (
         <div>
@@ -13,7 +15,7 @@ export default function DisplayPoll(props) {
                 const blockDate = data.date.toDate().toString().split(" ");
                 const times = data.time;
 
-                return <PollBlock key={i} id={id} date={blockDate} times={times} />
+                return <PollBlock key={i} id={id} date={blockDate} times={times} vps={vps} vpu={vpu}/>
             })}
         </div>
     )

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { db } from '../../utils/firebase'
 import PrivateRoute from '../../components/PrivateRoute'
 import Alert from '../../components/Alert'
-import PollTime from '../../components/PollTime';
+import PollTime from '../../components/PollTime'
 import { useAuth } from '../../AuthContext'
 
 export default function create() {
@@ -137,7 +137,6 @@ export default function create() {
         let type = document.getElementById('slots').checked ? 'slots' : 'blocks';
         let number = document.getElementById('number').value;
 
-        let output = [];
         blocks.forEach(async (block, i) => {
             let date = block.querySelector('[id^="date"]').value;
             let start = block.querySelector('[id^="start"]').value;
@@ -147,10 +146,10 @@ export default function create() {
             let votes = {};
 
             for(let i = 0; i < currentBlock.length; i++){
-                votes[i] = "";
+                votes[i] = [];
             }
 
-            const newBlock = await addDoc(collection(db, 'blocks'), {
+            const newBlock = await setDoc(doc(db, 'blocks', `${pollId}-${i}`), {
                 blocks: currentBlock,
                 poll: pollId,
                 votes: votes
