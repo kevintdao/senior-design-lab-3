@@ -26,35 +26,14 @@ export default function Poll() {
         }
     }
 
-    async function getBlock(pollId){
-        const ref = collection(db, `polls/${pollId}/blocks`);
-        const snapshot = await getDocs(ref);
-
-        return snapshot;
-    }
-
-    async function getTime(blockId){
+    function handleSubmit() {
         
-    }
-
-    function handleSubmit(){
-
     }
 
     useEffect(() => {
         getPoll(id).then(response => {
             setPoll(response);
             setLoading(false);  
-        })
-        getBlock(id).then(response => {
-            var blocks = [];
-            response.forEach((block) => {
-                blocks.push({
-                    'id': block.id,
-                    'data': block.data()
-                })
-            })
-            setBlocks(blocks);
         })
     }, [])
 
