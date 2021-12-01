@@ -74,7 +74,7 @@ export default function PollForm(props) {
             votes[i] = [];
         }
 
-        const newBlock = await setDoc(doc(db, 'blocks', `${pollId}-${i}`), {
+        const newBlock = await updateDoc(doc(db, 'blocks', `${pollId}-${i}`), {
             blocks: currentBlock,
             poll: pollId,
             votes: votes
@@ -89,9 +89,11 @@ export default function PollForm(props) {
   }
 
   useEffect(() => {
+    var array = [];
     blockData.forEach((block) => {
-      addDate(block);
+      array.push(<PollTime key={array.length} index={array.length} block={block}/>);
     })
+    setDateList(array);
   }, [])
 
   return (

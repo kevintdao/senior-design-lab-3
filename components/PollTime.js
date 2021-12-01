@@ -4,7 +4,6 @@ export default function PollTime(props) {
     const index = props.index;
 
     if(props.block != undefined){
-        console.log(props.block);
         const block = props.block.data.blocks;
 
         const start = block[0].start.toDate();

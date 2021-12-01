@@ -4,8 +4,6 @@ import { collection, doc, setDoc, addDoc, query, getDocs, where, getDoc } from '
 import { db } from '../../utils/firebase'
 import PollForm from '../../components/PollForm'
 import { useAuth } from '../../AuthContext'
-import { splitTime, createDates } from '../../utils/time'
-
 
 export default function edit() {
     const router = useRouter();
@@ -45,8 +43,8 @@ export default function edit() {
         getPoll(id).then(poll => {
             setPoll(poll);
         })
-        getBlocks(id).then(block => {
-            setBlocks(block);
+        getBlocks(id).then(blocks => {
+            setBlocks(blocks);
             setLoading(false);  
         })
     }, [])
