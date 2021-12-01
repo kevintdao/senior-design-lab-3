@@ -4,6 +4,7 @@ import { collection, doc, setDoc, addDoc, query, getDocs, where, getDoc } from '
 import { db } from '../../utils/firebase'
 import PollForm from '../../components/PollForm'
 import { useAuth } from '../../AuthContext'
+import { splitTime, createDates } from '../../utils/time'
 
 
 export default function edit() {
@@ -61,7 +62,7 @@ export default function edit() {
             </div>
 
             <div>
-                <PollForm pollData={poll} blockData={blocks} />
+                <PollForm pollData={poll} blockData={blocks} id={id} />
             </div>
         </div>
     )

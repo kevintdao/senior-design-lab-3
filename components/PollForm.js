@@ -1,6 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import PollTime from './PollTime';
+import { collection, doc, setDoc, addDoc, query, getDocs, where, getDoc, updateDoc, writeBatch } from 'firebase/firestore'
+import { db } from '../utils/firebase'
+import { splitTime } from '../utils/time';
 
 export default function PollForm(props) {
   const title = useRef();
@@ -14,6 +17,7 @@ export default function PollForm(props) {
   const [dateList, setDateList] = useState([]);
   const router = useRouter();
 
+  const id = props.id;
   const pollData = props.pollData;
   const blockData = props.blockData;
 
@@ -33,9 +37,55 @@ export default function PollForm(props) {
           </div>
       )
   }
+
+  async function updatePoll(pollId){
+    let [year, month, date] = deadline.current.value.split('-');
+    let type = document.getElementById('slots').checked ? 'slots' : 'blocks';
+    let number = document.getElementById('number').value;
+
+    const pollRef = doc(db, 'polls', pollId);
+    await updateDoc(pollRef, {
+      end: new Date(year, month - 1, date, 0, 0, 0),
+      location: location.current.value,
+      notes: notes.current.value,
+      timezone: timezone.current.value,
+      title: title.current.value,
+      votes_per_slot: numSlot.current.value,
+      votes_per_user: numPerson.current.value,
+      type: type,
+      number: number
+    })
+
+    updateBlocks(id, type, number)
+  }
+
+  async function updateBlocks(pollId, type, number){
+    let blocks = document.querySelectorAll('[id^="block-"]');
+
+    blocks.forEach(async (block, i) => {
+        let date = block.querySelector('[id^="date"]').value;
+        let start = block.querySelector('[id^="start"]').value;
+        let end = block.querySelector('[id^="end"]').value;
+
+        const currentBlock = splitTime(date, start, end, type, number);
+        let votes = {};
+
+        for(let i = 0; i < currentBlock.length; i++){
+            votes[i] = [];
+        }
+
+        const newBlock = await setDoc(doc(db, 'blocks', `${pollId}-${i}`), {
+            blocks: currentBlock,
+            poll: pollId,
+            votes: votes
+        })
+    })
+  }
   
   function handleSubmit(){
-    console.log(pollDeadline);
+    updatePoll(id).then((response) => {
+      router.push('/dashboard');
+    });
   }
 
   useEffect(() => {
