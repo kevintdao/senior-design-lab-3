@@ -8,7 +8,6 @@ import { useAuth } from '../../AuthContext'
 export default function edit() {
     const router = useRouter();
     const { id } = router.query;
-    const { currentUser } = useAuth();
     const [poll, setPoll] = useState();
     const [blocks, setBlocks] = useState();
     const [loading, setLoading] = useState(true);
@@ -60,7 +59,7 @@ export default function edit() {
             </div>
 
             <div>
-                <PollForm pollData={poll} blockData={blocks} id={id} />
+                <PollForm type={"edit"} pollData={poll} blockData={blocks} id={id} />
             </div>
         </div>
     )
