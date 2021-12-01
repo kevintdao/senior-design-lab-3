@@ -20,16 +20,16 @@ export default function PollForm(props) {
   const date = pollData.end.toDate();
   const pollDeadline = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`;
 
-  function addDate(block = null) {
+  function addDate(block = undefined) {
     setDateList(dateList.concat(
         <PollTime key={dateList.length} index={dateList.length} block={block}/>
     ));
-}
+  }
 
   function AddButton() {
       return (
           <div>
-              <button onClick={addDate} className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 p-2">Add a Date</button>
+              <button onClick={() => { addDate(); }} className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 p-2">Add a Date</button>
           </div>
       )
   }
