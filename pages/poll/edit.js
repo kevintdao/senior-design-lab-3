@@ -28,17 +28,24 @@ export default function edit() {
     }
 
     async function getBlocks(pollId){
+        const output = []
         const q = query(collection(db, 'blocks'), where('poll', '==', pollId));
         const snapshot = await getDocs(q);
         snapshot.forEach((doc) => {
-            console.log(doc.data());
+            output.push({
+                id: doc.id,
+                data: doc.data()
+            })
         })
+        return output;
     }
 
     useEffect(() => {
         getPoll(id).then(poll => {
-            console.log(poll)
             setPoll(poll);
+        })
+        getBlocks(id).then(block => {
+            setBlocks(block);
             setLoading(false);  
         })
     }, [])
@@ -54,7 +61,7 @@ export default function edit() {
             </div>
 
             <div>
-                <PollForm pollData={poll} blockData={""} />
+                <PollForm pollData={poll} blockData={blocks} />
             </div>
         </div>
     )

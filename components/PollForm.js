@@ -1,5 +1,6 @@
-import React, { useRef } from 'react'
-import { useRouter } from 'next/router';
+import React, { useRef, useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import PollTime from './PollTime';
 
 export default function PollForm(props) {
   const title = useRef();
@@ -10,6 +11,7 @@ export default function PollForm(props) {
   const numPerson = useRef();
   const deadline = useRef();
   const timezone = useRef();
+  const [dateList, setDateList] = useState([]);
   const router = useRouter();
 
   const pollData = props.pollData;
@@ -18,9 +20,29 @@ export default function PollForm(props) {
   const date = pollData.end.toDate();
   const pollDeadline = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`;
 
+  function addDate(block = null) {
+    setDateList(dateList.concat(
+        <PollTime key={dateList.length} index={dateList.length} block={block}/>
+    ));
+}
+
+  function AddButton() {
+      return (
+          <div>
+              <button onClick={addDate} className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 p-2">Add a Date</button>
+          </div>
+      )
+  }
+  
   function handleSubmit(){
     console.log(pollDeadline);
   }
+
+  useEffect(() => {
+    blockData.forEach((block) => {
+      addDate(block);
+    })
+  }, [])
 
   return (
     <div>
@@ -54,7 +76,7 @@ export default function PollForm(props) {
 
                 <div className="flex flex-col w-full space-y-1">
                     <label htmlFor="timezone">Time Zone (US)</label>
-                    <select id="timezone" className="border border-gray-300 rounded p-2" ref={timezone}>
+                    <select id="timezone" className="border border-gray-300 rounded p-2" ref={timezone} defaultValue={pollData.timezone}>
                         <option value=""></option>
                         <option value="HST">HST</option>
                         <option value="AKST">AKST</option>
@@ -70,12 +92,12 @@ export default function PollForm(props) {
                 <p>Choose one*</p>
                 <div>
                     <div>
-                        <input type="radio" id="blocks" name="SB" className="border border-gray-300 rounded p-2" value="block" />
+                        <input type="radio" id="blocks" name="SB" defaultChecked={pollData.type == 'blocks'} className="border border-gray-300 rounded p-2" value="block" />
                         <label htmlFor="blocks"> Number of Blocks</label>
                     </div>
 
                     <div>
-                        <input type="radio" id="slots" name="SB" className="border border-gray-300 rounded p-2" value="slot" />
+                        <input type="radio" id="slots" name="SB" defaultChecked={pollData.type == 'slots'} className="border border-gray-300 rounded p-2" value="slot" />
                         <label htmlFor="slots"> Minutes per Time Slot!</label>
                         <div>Note*: Minutes per time slot must be at least 5</div>
                     </div>
@@ -83,27 +105,27 @@ export default function PollForm(props) {
 
                 <div>
                     <label htmlFor="number"> Number* </label>
-                    <input type="number" id="number" name="number" ref={numSB} className="border border-gray-300 rounded p-2" min="1" />
+                    <input type="number" id="number" name="number" ref={numSB} defaultValue={pollData.number} className="border border-gray-300 rounded p-2" min="1" />
                 </div>
             </div>
 
             <div className="flex md:flex-row md:space-x-2 justify-between flex-col">
                 <div className="flex flex-col w-full space-y-1">
                     <label htmlFor="numSlot">Votes per Slot</label>
-                    <input type="number" id="numSlot" name="numSlot" ref={numSlot} defaultValue={pollData.numSlot} className="border border-gray-300 rounded p-2" min="0" />
+                    <input type="number" id="numSlot" name="numSlot" ref={numSlot} defaultValue={pollData.votes_per_slot} className="border border-gray-300 rounded p-2" min="1" />
                 </div>
 
                 <div className="flex flex-col w-full space-y-1">
                     <label htmlFor="numPerson">Votes per Person</label>
-                    <input type="number" id="numPerson" name="numPerson" ref={numPerson} defaultValue={pollData.numPerson} className="border border-gray-300 rounded p-2" min="0" />
+                    <input type="number" id="numPerson" name="numPerson" ref={numPerson} defaultValue={pollData.votes_per_user} className="border border-gray-300 rounded p-2" min="1" />
                 </div>
             </div>
 
             <hr className="mt-2 mb-2" />
 
-            {/* {dateList} */}
+            {dateList}
 
-            {/* <AddButton /> */}
+            <AddButton />
             {/* <RemoveButton /> */}
 
             <div>

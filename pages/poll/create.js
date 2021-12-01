@@ -112,6 +112,8 @@ export default function create() {
 
     async function insertPoll() {
         let [year, month, date] = deadlineDate.current.value.split('-');
+        let type = document.getElementById('slots').checked ? 'slots' : 'blocks';
+        let number = document.getElementById('number').value;
 
         const newPoll = await addDoc(collection(db, 'polls'), {
             email: currentUser.email,
@@ -122,20 +124,20 @@ export default function create() {
             timezone: timezone.current.value,
             title: title.current.value,
             votes_per_slot: numSlot.current.value,
-            votes_per_user: numPerson.current.value
+            votes_per_user: numPerson.current.value,
+            type: type,
+            number: number
         })
 
-        const blocks = getBlocks(newPoll.id);
+        const blocks = getBlocks(newPoll.id, type, number);
 
         blocks.then((response) => {
             router.push('/dashboard');
         })
     }
 
-    async function getBlocks(pollId) {
+    async function getBlocks(pollId, type, number) {
         let blocks = document.querySelectorAll('[id^="block-"]');
-        let type = document.getElementById('slots').checked ? 'slots' : 'blocks';
-        let number = document.getElementById('number').value;
 
         blocks.forEach(async (block, i) => {
             let date = block.querySelector('[id^="date"]').value;
