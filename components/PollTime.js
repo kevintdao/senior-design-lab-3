@@ -3,15 +3,19 @@ import React from 'react'
 export default function PollTime(props) {
     const index = props.index;
 
+    const date = null;
+    const startTime = null;
+    const endTime = null;
+
     if(props.block != undefined){
         const block = props.block.data.blocks;
 
         const start = block[0].start.toDate();
         const end = block[block.length - 1].end.toDate();
     
-        const date = `${start.getFullYear()}-${start.getMonth()+1}-${format(start.getDate())}`;
-        const startTime = `${format(start.getHours())}:${format(start.getMinutes())}`;
-        const endTime = `${format(end.getHours())}:${format(end.getMinutes())}`
+        date = `${start.getFullYear()}-${start.getMonth()+1}-${format(start.getDate())}`;
+        startTime = `${format(start.getHours())}:${format(start.getMinutes())}`;
+        endTime = `${format(end.getHours())}:${format(end.getMinutes())}`
     }
 
     function format(input){
