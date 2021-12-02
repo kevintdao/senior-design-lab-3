@@ -11,15 +11,13 @@ export default function DisplayPoll(props) {
         <div id='poll-block'>
             {blocks.map((block) => {
                 const id = block.id;
-                
-                const output = [];
 
                 return block.data.blocks.map((b, i) => {
                     const blockDateEnd = b.end.toDate().toString().split(" ");
                     const blockDateStart = b.start.toDate().toString().split(" ");
                     const times = {"end": blockDateEnd[4], "start": blockDateStart[4]};
-                    output.push(<PollBlock key={i} id={id} date={blockDateEnd} times={times} vps={vps} vpu={vpu} />);
-                    return <PollBlock key={i} id={id} date={blockDateEnd} times={times} vps={vps} vpu={vpu} />
+                    console.log(block.data.votes[i]);
+                    return <PollBlock key={i} bid={i} id={id} date={blockDateEnd} times={times} vps={vps} vpu={vpu} votes ={block.data.votes[i]}/>
                 });
                 
             })}
