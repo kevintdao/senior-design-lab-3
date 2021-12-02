@@ -31,13 +31,11 @@ export default function PollBlock(props) {
     }
     
     return (
-        
         <div id={id} className="flex items-center">
             <input type="checkbox" id={`${id}_${bid}`} className="mr-2" disabled={votes.length >= vps} onChange={(e) => handleCheckbox(e.target, vps)} />
-            <h6>{formatTime(times.start)} to {formatTime(times.end)}</h6>
-            <h6>{votes.length.toString()} / {vps} slots taken </h6>
-            <h6>Name:</h6>
-            <h5>{votes}</h5>
+            <h6 className="w-1/2">{formatTime(times.start)} to {formatTime(times.end)}</h6>
+            <h6 className="w-1/4">{votes.length.toString()} / {vps}</h6>
+            <h6 className="w-1/4">Name: {votes.join()}</h6>
         </div>
     )
 }

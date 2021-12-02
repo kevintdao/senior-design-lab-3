@@ -28,8 +28,7 @@ export default function DisplayPoll(props) {
                     else{
                         return <PollBlock key={i} bid={i} id={id} date={blockDateEnd} times={times} vps={vps} vpu={vpu} votes ={block.data.votes[i]}/>
                     }
-                });
-                
+                });  
             })}
         </div>
     )
