@@ -65,35 +65,6 @@ export default function create() {
         }
     }
 
-    function greaterThanCurrentDate(d1, t1) {
-        let newDate = new Date();
-        let currDay = newDate.getDate();
-        let currMonth = newDate.getMonth() + 1;
-        let currYear = newDate.getFullYear();
-        let currHours = newDate.getHours();
-        let currMinutes = newDate.getMinutes();
-
-        let d2 = currYear + '-' + currMonth + '-' + currDay;
-        let t2 = currHours + ':' + currMinutes;
-
-        if (currHours < 10)
-        {
-            t2 = '0' + currHours + ':' + currMinutes;  
-        }
-
-        if(d1 > d2)
-        {
-            return true;
-        }
-        
-        if(d1 == d2 && t1 > t2)
-        {
-            return true;
-        }
-        
-        return false;
-    }
-
     // function removeDate() {
     //     if(dateList.length > 0){
     //         let removedDate = dateList.pop();

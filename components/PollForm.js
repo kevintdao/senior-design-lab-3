@@ -140,27 +140,27 @@ export default function PollForm(props) {
   }
   
   function handleSubmit(){
-    if(formType == 'edit'){
-      updatePoll(id).then((response) => {
-        router.push('/dashboard');
-      });
+    let msg = checkPoll(
+      title.current.value, 
+      deadline.current.value, 
+      document.getElementById('slots'),
+      document.getElementById('blocks'),
+      numSB.current.value,
+      dateList
+    );
+
+    if (msg != ""){
+      return setError(msg.split('\n').map((str, i) => <p key={i}>{str}</p>));
     }
     else{
-      let msg = checkPoll(
-        title.current.value, 
-        deadline.current.value, 
-        document.getElementById('slots'),
-        document.getElementById('blocks'),
-        numSB.current.value,
-        dateList
-      );
-      if (msg != ""){
-        return setError(msg.split('\n').map((str, i) => <p key={i}>{str}</p>));
+      if(formType == 'edit'){
+        updatePoll(id).then((response) => {
+          router.push('/dashboard');
+        });
       }
       else{
-
+        insertPoll();
       }
-      // insertPoll();
     }
   }
 
