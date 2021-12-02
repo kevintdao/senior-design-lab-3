@@ -63,14 +63,14 @@ export default function Poll() {
             timeMsg += `${select.date}, ${select.time}\n`;
         })
 
-        // selected.forEach( async (s) => {
-        //     const [bid, slot] = s.id.split("_");
-        //     var pollRef = doc(db, 'blocks', bid);
-        //     var field = "votes." + slot;
-        //     await updateDoc(pollRef, {
-        //         [field]: arrayUnion(name)
-        //     });
-        // });
+        selected.forEach( async (s) => {
+            const [bid, slot] = s.id.split("_");
+            var pollRef = doc(db, 'blocks', bid);
+            var field = "votes." + slot;
+            await updateDoc(pollRef, {
+                [field]: arrayUnion(name)
+            });
+        });
 
         let msg = `Submitted!\n
             Title: ${poll.title}\n
