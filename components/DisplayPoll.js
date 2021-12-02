@@ -18,7 +18,7 @@ export default function DisplayPoll(props) {
                     const times = {"end": blockDateEnd[4], "start": blockDateStart[4]};
                     if (i == 0){
                         return (
-                            <div>
+                            <div key={i}>
                                 <h4>
                                     {blockDateStart[0]} {blockDateStart[1]} {blockDateStart[2]} {blockDateStart[3]}
                                 </h4>

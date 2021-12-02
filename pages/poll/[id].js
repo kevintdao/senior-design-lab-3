@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { doc, getDoc, getDocs, collection, query, where, orderBy, updateDoc, arrayUnion } from 'firebase/firestore'
 import { db } from '../../utils/firebase'
 import DisplayPoll from '../../components/DisplayPoll'
+import Alert from '../../components/Alert'
 
 export default function Poll() {
     const router = useRouter();
@@ -10,8 +11,8 @@ export default function Poll() {
     const [error, setError] = useState('');
     const [poll, setPoll] = useState();
     const [blocks, setBlocks] = useState([]);
-    const [times, setTimes] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [alert, setAlert] = useState('');
 
     async function getPoll(id){
         const ref = doc(db, "polls", id);
@@ -48,6 +49,12 @@ export default function Poll() {
                 [field]: arrayUnion(name)
             });
         });
+        setAlert(
+            `Voted!\n
+            Title: ${poll.title}\n
+            Location: ${poll.location}\n
+            Name: ${name}`
+        );
     }
 
     useEffect(() => {
@@ -58,10 +65,19 @@ export default function Poll() {
             setBlocks(response);
             setLoading(false);
         })
+        setAlert('');
     }, [])
 
     if (loading){
         return <div></div>
+    }
+
+    if (alert){
+        return (
+            <div>
+                <Alert text={alert} bgColor={'bg-green-100'} textColor={'text-green-700'} borderColor={'border-green-400'} />
+            </div>
+        )
     }
 
     if (!poll) {
