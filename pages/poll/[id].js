@@ -35,11 +35,22 @@ export default function Poll() {
                 data: doc.data()
             });
         });
-        console.log(output);
         return output;
     }
-    function handleSubmit() {
-        
+    async function handleSubmit() {
+        var selected = document.querySelectorAll('input[type=checkbox]:checked');
+        var name = document.getElementById('name').value;
+        selected.forEach( async (s) => {
+            var [bid, slot] = s.id.split("_");
+            var pollRef = doc(db, 'blocks', bid);
+            await updateDoc(pollRef, {
+                slot: name
+            });
+        });
+        // const blocksRef = doc(db, "blocks", blocks.blocks[0].id)
+        // await updateDoc(blocksRef, {
+        //     voting 
+        // })
     }
 
     useEffect(() => {
