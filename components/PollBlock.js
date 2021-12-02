@@ -3,44 +3,39 @@ import React from 'react'
 export default function PollBlock(props) {
     const [day, month, date, year] = props.date;
     const times = props.times;
+    const bid = props.bid;
     const vps = props.vps;
+    const vpu = props.vpu;
     const id = props.id;
-    var selectedId = [];
-
-    for(let time in times){
-        console.log(time);
-    }
-
+    const votes = props.votes;
+    
     function handleCheckbox(element, vps){
-        // TODO: Check for valid number of checkboxes
-        var checkboxes = document.querySelectorAll('input[type=checkbox]:not([disabled])');
         var selected = document.querySelectorAll('input[type=checkbox]:checked');
-        console.log(selectedId);
-
-        if(selected.length <= vps && !selectedId.includes(element.id)){
-            selectedId.push(element.id);
-            return;
+        if( !(selected.length <= vpu) ){
+            selected.forEach((s) => {
+                s.checked = false;
+            })
+            alert("You can only select " + vpu + " option(s)");
         }
-
-        selectedId.shift();
-        checkboxes.forEach((checkbox) => {
-            if(!selectedId.includes(checkbox.id) && checkbox.checked && checkbox != element ){
-                checkbox.checked = false;
-            }
-        })
     }
 
+    function formatTime(time){
+        const [h, m] = time.split(':')
+        
+        const hour = h < 12 ? h : h - 12;
+        hour = hour == 0 ? 12 : hour
+        const min = m
+        const ampm = h < 12 ? "AM" : "PM"
+
+        return `${hour}:${min} ${ampm}`;
+    }
+    
     return (
-        <div id={id}>
-            <h6>{day} {month} {date} {year}</h6>
-            {/* {times.map((time, i) => {
-                return <div id={`${id}_${i}`} className="flex items-center" key={i}>
-                    <input id={`${id}_${month}-${date}-${time}`} type="checkbox" className="mr-2" disabled={pollTimes[i] == vps} onChange={(e) => handleCheckbox(e.target, vps)}/>
-                    <p className="w-1/4">{time}</p>
-                    <p>({pollTimes[i]} / {vps})</p>
-                </div>
-            })} */}
-            <hr className="mb-1 mt-1"/>
+        <div id={id} className="flex items-center">
+            <input type="checkbox" id={`${id}_${bid}`} className="mr-2" disabled={votes.length >= vps} onChange={(e) => handleCheckbox(e.target, vps)} />
+            <label htmlFor={`${id}_${bid}`} className="w-1/3">{formatTime(times.start)} to {formatTime(times.end)}</label>
+            <p className="w-1/4 text-center">{votes.length.toString()} / {vps}</p>
+            <p className="w-6/12">Participants: <strong>{votes.join()}</strong></p>
         </div>
     )
 }
