@@ -39,7 +39,7 @@ export default function PollBlock(props) {
                 <Image src='/graphics/check mark transparent.png' width="20px" height='20px' />
                 <p>{votes.length.toString()} / {vps}</p>
             </div>
-            <p className="w-6/12">Participants: <strong>{votes.join()}</strong></p>
+            <p className="w-6/12">Participants: <strong>{votes.join().replaceAll(',', ' / ')}</strong></p>
         </div>
     )
 }
