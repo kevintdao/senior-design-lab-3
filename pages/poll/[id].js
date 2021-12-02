@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { doc, getDoc, getDocs, collection, query, where, orderBy, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, getDocs, collection, query, where, orderBy, updateDoc, arrayUnion } from 'firebase/firestore'
 import { db } from '../../utils/firebase'
 import DisplayPoll from '../../components/DisplayPoll'
 
@@ -26,8 +26,12 @@ export default function Poll() {
         }
     }
 
-    function handleSubmit() {
-        
+    async function handleSubmit() {
+        // TODO: get block id from element in dom
+        const pollRef = doc(db, 'blocks', `${id}-0`);
+        await updateDoc(pollRef, {
+            "votes.0": arrayUnion('test user')
+        });
     }
 
     useEffect(() => {
