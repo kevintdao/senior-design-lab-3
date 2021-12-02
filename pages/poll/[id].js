@@ -40,6 +40,10 @@ export default function Poll() {
     function handleSubmit() {
         var selected = document.querySelectorAll('input[type=checkbox]:checked');
         var name = document.getElementById('name').value;
+        if(name == ""){
+            alert("must enter a name");
+            return;
+        }
         selected.forEach( async (s) => {
             const [bid, slot] = s.id.split("_");
             var pollRef = doc(db, 'blocks', bid);
@@ -93,7 +97,7 @@ export default function Poll() {
             <hr className="mb-2"/>
             <div>
                 <label htmlFor="name">Enter your name: </label>
-                <input type="text" id='name' />
+                <input type="text" id='name'/>
             </div>
             <hr className="mb-2"/>
             <DisplayPoll blocks={blocks} vps={poll.votes_per_slot} vpu={poll.votes_per_user} />
