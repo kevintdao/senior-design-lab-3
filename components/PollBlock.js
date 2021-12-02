@@ -18,16 +18,26 @@ export default function PollBlock(props) {
             alert("must only select " + vpu + "options");
         }
     }
+
+    function formatTime(time){
+        const [h, m] = time.split(':')
+        
+        const hour = h < 12 ? h : h - 12;
+        hour = hour == 0 ? 12 : hour
+        const min = m
+        const ampm = h < 12 ? "AM" : "PM"
+
+        return `${hour}:${min} ${ampm}`;
+    }
     
     return (
         
         <div id={id} className="flex items-center">
-            <h6>{day} {month} {date} {year} {times.start} to {times.end}</h6>
             <input type="checkbox" id={`${id}_${bid}`} className="mr-2" disabled={votes.length >= vps} onChange={(e) => handleCheckbox(e.target, vps)} />
+            <h6>{formatTime(times.start)} to {formatTime(times.end)}</h6>
             <h6>{votes.length.toString()} / {vps} slots taken </h6>
             <h6>Name:</h6>
             <h5>{votes}</h5>
-            <hr className="mb-1 mt-1"/>
         </div>
     )
 }
