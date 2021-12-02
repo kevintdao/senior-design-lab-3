@@ -21,6 +21,7 @@ export default function PollForm(props) {
   const router = useRouter();
   const { currentUser } = useAuth();
   const [error, setError] = useState('');
+  const [alert, setAlert] = useState('');
 
   const formType = props.type;
   const id = props.id;
@@ -109,11 +110,7 @@ export default function PollForm(props) {
         number: number
     })
 
-    const blocks = insertBlocks(newPoll.id, type, number);
-
-    blocks.then((response) => {
-        router.push('/dashboard');
-    })
+    insertBlocks(newPoll.id, type, number);
   }
 
   async function insertBlocks(pollId, type, number) {
@@ -140,27 +137,29 @@ export default function PollForm(props) {
   }
   
   function handleSubmit(){
-    if(formType == 'edit'){
-      updatePoll(id).then((response) => {
-        router.push('/dashboard');
-      });
+    let msg = checkPoll(
+      title.current.value, 
+      deadline.current.value, 
+      document.getElementById('slots'),
+      document.getElementById('blocks'),
+      numSB.current.value,
+      dateList
+    );
+
+    if (msg != ""){
+      return setError(msg.split('\n').map((str, i) => <p key={i}>{str}</p>));
     }
     else{
-      let msg = checkPoll(
-        title.current.value, 
-        deadline.current.value, 
-        document.getElementById('slots'),
-        document.getElementById('blocks'),
-        numSB.current.value,
-        dateList
-      );
-      if (msg != ""){
-        return setError(msg.split('\n').map((str, i) => <p key={i}>{str}</p>));
+      if(formType == 'edit'){
+        updatePoll(id).then((response) => {
+          setAlert('Poll successfully updated!');
+        });
       }
       else{
-
+        insertPoll().then((response) => {
+          setAlert('Poll successfully created!');
+        });
       }
-      // insertPoll();
     }
   }
 
@@ -172,7 +171,16 @@ export default function PollForm(props) {
       })
       setDateList(array);
     }
+    setAlert('');
   }, [])
+
+  if(alert != ''){
+    return(
+      <div>
+        <Alert text={alert} bgColor={'bg-green-100'} textColor={'text-green-700'} borderColor={'border-green-400'} />
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -242,13 +250,13 @@ export default function PollForm(props) {
 
             <div className="flex md:flex-row md:space-x-2 justify-between flex-col">
                 <div className="flex flex-col w-full space-y-1">
-                    <label htmlFor="numSlot">Votes per Slot</label>
-                    <input type="number" id="numSlot" name="numSlot" ref={numSlot} defaultValue={formType == 'edit' ? pollData.votes_per_slot : ""} className="border border-gray-300 rounded p-2" min="1" />
+                    <label htmlFor="numSlot">Votes per Slot (Default: 1)</label>
+                    <input type="number" id="numSlot" name="numSlot" ref={numSlot} defaultValue={formType == 'edit' ? pollData.votes_per_slot : 1} className="border border-gray-300 rounded p-2" min="1" />
                 </div>
 
                 <div className="flex flex-col w-full space-y-1">
-                    <label htmlFor="numPerson">Votes per Person</label>
-                    <input type="number" id="numPerson" name="numPerson" ref={numPerson} defaultValue={formType == 'edit' ? pollData.votes_per_user : ""} className="border border-gray-300 rounded p-2" min="1" />
+                    <label htmlFor="numPerson">Votes per Person (Default: 1)</label>
+                    <input type="number" id="numPerson" name="numPerson" ref={numPerson} defaultValue={formType == 'edit' ? pollData.votes_per_user : 1} className="border border-gray-300 rounded p-2" min="1" />
                 </div>
             </div>
 
@@ -257,7 +265,6 @@ export default function PollForm(props) {
             {dateList}
 
             <AddButton />
-            {/* <RemoveButton /> */}
 
             <div>
                 <button onClick={handleSubmit} className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 p-2">Publish</button>

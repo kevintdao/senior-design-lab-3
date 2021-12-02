@@ -56,14 +56,14 @@ export default function AllPolls() {
         }
         else {
             return (
-                <table className="divide-y divide-gray-200 min-w-full">
+                <table className="divide-y divide-gray-200 min-w-full table-fixed">
                     <thead className="bg-gray-50">
                         <tr>
-                            <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">Title</th>
-                            <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">Start Date</th>
-                            <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">End Date</th>
-                            <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">Timezone</th>
-                            <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">Invite</th>
+                            <th scope="col" className="w-1/6 px-2 py-3 text-left text-xs font-medium text-grat-500 uppercase tracking-wider">Title</th>
+                            <th scope="col" className="w-1/6 px-2 py-3 text-center text-xs font-medium text-grat-500 uppercase tracking-wider">Start Date</th>
+                            <th scope="col" className="w-1/6 px-2 py-3 text-center text-xs font-medium text-grat-500 uppercase tracking-wider">End Date</th>
+                            <th scope="col" className="w-1/6 px-2 py-3 text-center text-xs font-medium text-grat-500 uppercase tracking-wider">Timezone</th>
+                            <th scope="col" className="w-1/6 px-2 py-3 text-center text-xs font-medium text-grat-500 uppercase tracking-wider">{invite == true ? "Invite" : ""}</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -75,14 +75,14 @@ export default function AllPolls() {
                             return (
                                 <tr key={i}>
                                     <td className="px-2 py-3 text-sm font-medium text-gray-900">{poll.data.title}</td>
-                                    <td className="px-2 py-3 text-sm font-medium text-gray-900">{sMonth} {sDate} {sYear}</td>
-                                    <td className="px-2 py-3 text-sm font-medium text-gray-900">{eMonth} {eDate} {eYear}</td>
-                                    <td className="px-2 py-3 text-sm font-medium text-gray-900">{poll.data.timezone}</td>
-                                    <td className="px-2 py-3 text-sm font-medium text-gray-900">
+                                    <td className="px-2 py-3 text-center text-sm font-medium text-gray-900">{sMonth} {sDate} {sYear}</td>
+                                    <td className="px-2 py-3 text-center text-sm font-medium text-gray-900">{eMonth} {eDate} {eYear}</td>
+                                    <td className="px-2 py-3 text-center text-sm font-medium text-gray-900">{poll.data.timezone}</td>
+                                    <td className="px-2 py-3 text-center text-sm font-medium text-gray-900">
                                         {invite == true && <InvitePopup id={poll.id} />}
                                     </td>
-                                    <td className="px-2 py-3 text-sm font-medium text-gray-900">
-                                        <div className="flex flex-row space-x-1">
+                                    <td className="px-2 py-3 text-center text-sm font-medium text-gray-900">
+                                        <div className="flex flex-row justify-center space-x-1">
                                             <a href={`/poll/${poll.id}`} className="text-indigo-600 hover:text-indigo-900">View</a>
                                             {invite == true && <p>/</p>}
                                             {invite == true && <a href={`/poll/edit?id=${poll.id}`} className="text-indigo-600 hover:text-indigo-900">Edit</a>}

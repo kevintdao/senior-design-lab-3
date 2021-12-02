@@ -12,7 +12,7 @@ export function checkPoll(title, deadline, slot, block, number, dateList){
       errorMsg += "Enter a valid deadline date!\n";
   }
 
-  if (slot.checked && !block.checked) {
+  if (!slot.checked && !block.checked) {
       errorMsg += "Make a selection: Number of Blocks or Minutes per Time Slot!\n"
   }
 
@@ -36,10 +36,8 @@ export function checkPoll(title, deadline, slot, block, number, dateList){
           {
               errorMsg += "Start times must be before End times!\n";
           }
-          // start time cannot be same as current time or anytime before that
-          else if (!greaterThanCurrentDate(d, s))
-          {
-              errorMsg += "Invlaid times or dates!\n";
+          else if(!greaterThanCurrentDate(d, s)){
+              errorMsg += "Invalid times or dates!\n";
           }
       }
   }
@@ -47,4 +45,32 @@ export function checkPoll(title, deadline, slot, block, number, dateList){
       errorMsg += "Add a date to the poll!\n";
   }
   return errorMsg;
+}
+
+function greaterThanCurrentDate(d1, t1) {
+    let newDate = new Date();
+    let currDay = format(newDate.getDate());
+    let currMonth = format(newDate.getMonth() + 1);
+    let currYear = newDate.getFullYear();
+    let currHours = format(newDate.getHours());
+    let currMinutes = format(newDate.getMinutes());
+
+    let d2 = currYear + '-' + currMonth + '-' + currDay;
+    let t2 = currHours + ':' + currMinutes;
+
+    if(d1 > d2)
+    {
+        return true;
+    }
+    
+    if(d1 == d2 && t1 > t2)
+    {
+        return true;
+    }
+    
+    return false;
+}
+
+export function format(input){
+    return `${input < 10 ? `0${input}` : input}`;
 }

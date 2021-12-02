@@ -1,4 +1,5 @@
 import React from 'react'
+import { format } from '../utils/validation';
 
 export default function PollTime(props) {
     const index = props.index;
@@ -16,10 +17,6 @@ export default function PollTime(props) {
         date = `${start.getFullYear()}-${start.getMonth()+1}-${format(start.getDate())}`;
         startTime = `${format(start.getHours())}:${format(start.getMinutes())}`;
         endTime = `${format(end.getHours())}:${format(end.getMinutes())}`
-    }
-
-    function format(input){
-        return `${input < 10 ? `0${input}` : input}`;
     }
 
     return (
