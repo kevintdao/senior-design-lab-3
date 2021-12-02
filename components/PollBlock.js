@@ -7,7 +7,9 @@ export default function PollBlock(props) {
     const vps = props.vps;
     const vpu = props.vpu;
     const id = props.id;
+    const votes = props.votes;
     var selectedId = [];
+    var numSelectedSlots = 0;
     // for(let time in times){
     //     console.log(time);
     // }
@@ -35,12 +37,24 @@ export default function PollBlock(props) {
     //         }
     //     })
     // }
+    function handleCheckbox(element, vps){
+        console.log(element);
+        var selected = document.querySelectorAll('input[type=checkbox]:checked');
+        if( !(selected.length <= vpu) ){
+            selected.forEach((s) => {
+                s.checked = false;
+            })
+            alert("must only select " + vpu + "options");
+        }
+    }
+    
     return (
         
         <div id={id} className="flex items-center">
             <h6>{day} {month} {date} {year} {times.start} to {times.end}</h6>
             {/* <input type="checkbox" id={`${id}_${month}-${date}-${times.start}`} className="mr-2" onChange={(e) => handleCheckbox(e.target, vps)}/> */}
-            <input type="checkbox" id={`${id}_${bid}`} className="mr-2"/>
+            <input type="checkbox" id={`${id}_${bid}`} className="mr-2" disabled={votes.length == vps} onChange={(e) => handleCheckbox(e.target, vps)} />
+            <h6>{votes.length.toString()} / {vps} slots taken </h6>
             <hr className="mb-1 mt-1"/>
         </div>
     )
