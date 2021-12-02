@@ -53,8 +53,8 @@ export default function Poll() {
             let time = element.parentNode.children[1].innerText;
 
             selectTimes.push({
-                date: date,
-                time: time
+                date: date.trim(),
+                time: time.trim()
             })
         })
 
@@ -63,20 +63,20 @@ export default function Poll() {
             timeMsg += `${select.date}, ${select.time}\n`;
         })
 
-        selected.forEach( async (s) => {
-            const [bid, slot] = s.id.split("_");
-            var pollRef = doc(db, 'blocks', bid);
-            var field = "votes." + slot;
-            await updateDoc(pollRef, {
-                [field]: arrayUnion(name)
-            });
-        });
+        // selected.forEach( async (s) => {
+        //     const [bid, slot] = s.id.split("_");
+        //     var pollRef = doc(db, 'blocks', bid);
+        //     var field = "votes." + slot;
+        //     await updateDoc(pollRef, {
+        //         [field]: arrayUnion(name)
+        //     });
+        // });
 
-        let msg = `Voted!\n
+        let msg = `Submitted!\n
             Title: ${poll.title}\n
             Location: ${poll.location}\n
             Name: ${name}\n
-            Selected Time(s): ${timeMsg}\n`;
+            Selected Time(s): \n${timeMsg}\n`;
 
         msg = msg.split('\n').map((str, i) => <p key={i}>{str}</p>);
         setAlertMsg(msg);
