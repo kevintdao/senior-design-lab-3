@@ -25,6 +25,8 @@ export default function PollBlock(props) {
             <h6>{day} {month} {date} {year} {times.start} to {times.end}</h6>
             <input type="checkbox" id={`${id}_${bid}`} className="mr-2" disabled={votes.length >= vps} onChange={(e) => handleCheckbox(e.target, vps)} />
             <h6>{votes.length.toString()} / {vps} slots taken </h6>
+            <h6>Name:</h6>
+            <h5>{votes}</h5>
             <hr className="mb-1 mt-1"/>
         </div>
     )
