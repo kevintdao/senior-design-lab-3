@@ -257,7 +257,6 @@ export default function PollForm(props) {
             {dateList}
 
             <AddButton />
-            {/* <RemoveButton /> */}
 
             <div>
                 <button onClick={handleSubmit} className="h-8 w-full mt-4 rounded-md flex items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700 p-2">Publish</button>
