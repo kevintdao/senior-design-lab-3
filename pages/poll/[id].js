@@ -42,7 +42,7 @@ export default function Poll() {
         var selected = document.querySelectorAll('input[type=checkbox]:checked');
         var name = document.getElementById('name').value;
         if(name == ""){
-            alert("must enter a name");
+            alert("Please enter a name!");
             return;
         }
 
@@ -131,13 +131,12 @@ export default function Poll() {
                 </tbody>
             </table>
             <hr className="mb-2"/>
-            <div>
+            <div className="mb-2">
                 <label htmlFor="name">Enter your name: </label>
-                <input type="text" id='name'/>
+                <input type="text" id='name' className="border border-gray-300 rounded p-2"/>
             </div>
-            <hr className="mb-2"/>
             <DisplayPoll blocks={blocks} vps={poll.votes_per_slot} vpu={poll.votes_per_user} />
-            <button className="bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium" onClick={handleSubmit}>Submit</button>
+            <button className="bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium mb-2" onClick={handleSubmit}>Submit</button>
         </div>
     )
 }

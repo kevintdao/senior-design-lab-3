@@ -19,7 +19,8 @@ export default function DisplayPoll(props) {
                     if (i == 0){
                         return (
                             <div key={i}>
-                                <h4>
+                                <hr className="mt-2 mb-2"/>
+                                <h4 className="mt-2 mb-2">
                                     {blockDateStart[0]} {blockDateStart[1]} {blockDateStart[2]} {blockDateStart[3]}
                                 </h4>
                             </div>
@@ -30,6 +31,7 @@ export default function DisplayPoll(props) {
                     }
                 });  
             })}
+            <hr className="mt-2 mb-2"/>
         </div>
     )
 }

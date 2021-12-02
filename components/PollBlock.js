@@ -15,7 +15,7 @@ export default function PollBlock(props) {
             selected.forEach((s) => {
                 s.checked = false;
             })
-            alert("must only select " + vpu + "options");
+            alert("You can only select " + vpu + " option(s)");
         }
     }
 
@@ -33,9 +33,9 @@ export default function PollBlock(props) {
     return (
         <div id={id} className="flex items-center">
             <input type="checkbox" id={`${id}_${bid}`} className="mr-2" disabled={votes.length >= vps} onChange={(e) => handleCheckbox(e.target, vps)} />
-            <h6 className="w-1/2">{formatTime(times.start)} to {formatTime(times.end)}</h6>
-            <h6 className="w-1/4">{votes.length.toString()} / {vps}</h6>
-            <h6 className="w-1/4">Name: {votes.join()}</h6>
+            <label htmlFor={`${id}_${bid}`} className="w-1/3">{formatTime(times.start)} to {formatTime(times.end)}</label>
+            <p className="w-1/4 text-center">{votes.length.toString()} / {vps}</p>
+            <p className="w-6/12">Participants: <strong>{votes.join()}</strong></p>
         </div>
     )
 }
