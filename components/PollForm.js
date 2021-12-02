@@ -21,6 +21,7 @@ export default function PollForm(props) {
   const router = useRouter();
   const { currentUser } = useAuth();
   const [error, setError] = useState('');
+  const [alert, setAlert] = useState('');
 
   const formType = props.type;
   const id = props.id;
@@ -109,11 +110,7 @@ export default function PollForm(props) {
         number: number
     })
 
-    const blocks = insertBlocks(newPoll.id, type, number);
-
-    blocks.then((response) => {
-        router.push('/dashboard');
-    })
+    insertBlocks(newPoll.id, type, number);
   }
 
   async function insertBlocks(pollId, type, number) {
@@ -155,11 +152,13 @@ export default function PollForm(props) {
     else{
       if(formType == 'edit'){
         updatePoll(id).then((response) => {
-          router.push('/dashboard');
+          setAlert('Poll successfully updated!');
         });
       }
       else{
-        insertPoll();
+        insertPoll().then((response) => {
+          setAlert('Poll successfully created!');
+        });
       }
     }
   }
@@ -172,7 +171,16 @@ export default function PollForm(props) {
       })
       setDateList(array);
     }
+    setAlert('');
   }, [])
+
+  if(alert != ''){
+    return(
+      <div>
+        <Alert text={alert} bgColor={'bg-green-100'} textColor={'text-green-700'} borderColor={'border-green-400'} />
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -242,13 +250,13 @@ export default function PollForm(props) {
 
             <div className="flex md:flex-row md:space-x-2 justify-between flex-col">
                 <div className="flex flex-col w-full space-y-1">
-                    <label htmlFor="numSlot">Votes per Slot</label>
-                    <input type="number" id="numSlot" name="numSlot" ref={numSlot} defaultValue={formType == 'edit' ? pollData.votes_per_slot : ""} className="border border-gray-300 rounded p-2" min="1" />
+                    <label htmlFor="numSlot">Votes per Slot (Default: 1)</label>
+                    <input type="number" id="numSlot" name="numSlot" ref={numSlot} defaultValue={formType == 'edit' ? pollData.votes_per_slot : 1} className="border border-gray-300 rounded p-2" min="1" />
                 </div>
 
                 <div className="flex flex-col w-full space-y-1">
-                    <label htmlFor="numPerson">Votes per Person</label>
-                    <input type="number" id="numPerson" name="numPerson" ref={numPerson} defaultValue={formType == 'edit' ? pollData.votes_per_user : ""} className="border border-gray-300 rounded p-2" min="1" />
+                    <label htmlFor="numPerson">Votes per Person (Default: 1)</label>
+                    <input type="number" id="numPerson" name="numPerson" ref={numPerson} defaultValue={formType == 'edit' ? pollData.votes_per_user : 1} className="border border-gray-300 rounded p-2" min="1" />
                 </div>
             </div>
 
