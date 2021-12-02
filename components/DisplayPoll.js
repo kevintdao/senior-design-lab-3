@@ -6,9 +6,17 @@ export default function DisplayPoll(props) {
     const blocks = props.blocks;
     const vps = props.vps;
     const vpu = props.vpu;
+    const date = blocks[0].data.blocks[0].start.toDate().toString().split(" ")
 
     return (
         <div id='poll-block'>
+            <div>
+                <hr className="mt-2 mb-2"/>
+                <h4 className="mt-2 mb-2">
+                    {date[0]} {date[1]} {date[2]} {date[3]}
+                </h4>
+            </div>
+
             {blocks.map((block) => {
                 const id = block.id;
 
@@ -16,19 +24,8 @@ export default function DisplayPoll(props) {
                     const blockDateEnd = b.end.toDate().toString().split(" ");
                     const blockDateStart = b.start.toDate().toString().split(" ");
                     const times = {"end": blockDateEnd[4], "start": blockDateStart[4]};
-                    if (i == 0){
-                        return (
-                            <div key={i}>
-                                <hr className="mt-2 mb-2"/>
-                                <h4 className="mt-2 mb-2">
-                                    {blockDateStart[0]} {blockDateStart[1]} {blockDateStart[2]} {blockDateStart[3]}
-                                </h4>
-                            </div>
-                        )
-                    }
-                    else{
-                        return <PollBlock key={i} bid={i} id={id} date={blockDateEnd} times={times} vps={vps} vpu={vpu} votes ={block.data.votes[i]}/>
-                    }
+                    
+                    return <PollBlock key={i} bid={i} id={id} date={blockDateEnd} times={times} vps={vps} vpu={vpu} votes ={block.data.votes[i]}/>
                 });  
             })}
             <hr className="mt-2 mb-2"/>

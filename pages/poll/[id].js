@@ -49,6 +49,7 @@ export default function Poll() {
         var selectTimes = [];
         selected.forEach((element) => {
             let date = element.parentNode.parentNode.children[0].innerText;
+            console.log(element.parentNode.parentNode);
             let time = element.parentNode.children[1].innerText;
 
             selectTimes.push({
@@ -89,8 +90,7 @@ export default function Poll() {
             setBlocks(response);
             setLoading(false);
         })
-        setAlertMsg('');
-    }, [])
+    }, [alertMsg])
 
     if (loading){
         return <div></div>
@@ -98,7 +98,7 @@ export default function Poll() {
 
     if (alertMsg){
         return (
-            <div>
+            <div className="container max-w-6xl lg:mx-auto mt-2">
                 <Alert text={alertMsg} bgColor={'bg-green-100'} textColor={'text-green-700'} borderColor={'border-green-400'} />
             </div>
         )

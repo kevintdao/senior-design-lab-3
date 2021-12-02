@@ -37,7 +37,7 @@ export default function PollBlock(props) {
             <label htmlFor={`${id}_${bid}`} className="w-1/3">{formatTime(times.start)} to {formatTime(times.end)}</label>
             <div className="w-1/4 text-center flex flex-row space-x-2 align-center">
                 <Image src='/graphics/check mark transparent.png' width="20px" height='20px' />
-                < >{votes.length.toString()} / {vps}</>
+                <p>{votes.length.toString()} / {vps}</p>
             </div>
             <p className="w-6/12">Participants: <strong>{votes.join()}</strong></p>
         </div>
