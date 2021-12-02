@@ -100,6 +100,30 @@ export default function Poll() {
         return (
             <div className="container max-w-6xl lg:mx-auto mt-2">
                 <Alert text={alertMsg} bgColor={'bg-green-100'} textColor={'text-green-700'} borderColor={'border-green-400'} />
+                <h2 className="text-center">{poll.title}</h2>
+                <p className="text-center">by <strong>{poll.email}</strong></p>
+                <table className="table-auto mt-2 mb-2">
+                    <tbody>
+                        <tr>
+                            <td>Location:</td>
+                            <td>{poll.location}</td>
+                        </tr>
+                        <tr>
+                            <td>Notes/Comments:</td>
+                            <td>{poll.notes}</td>
+                        </tr>
+                        <tr>
+                            <td>All times displays in:</td>
+                            <td><u>{poll.timezone}</u></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr className="mb-2"/>
+                <div className="mb-2">
+                    <label htmlFor="name">Enter your name: </label>
+                    <input type="text" id='name' className="border border-gray-300 rounded p-2"/>
+                </div>
+                <DisplayPoll blocks={blocks} vps={poll.votes_per_slot} vpu={poll.votes_per_user} />
             </div>
         )
     }
