@@ -12,7 +12,7 @@ export function checkPoll(title, deadline, slot, block, number, dateList){
       errorMsg += "Enter a valid deadline date!\n";
   }
 
-  if (slot.checked && !block.checked) {
+  if (!slot.checked && !block.checked) {
       errorMsg += "Make a selection: Number of Blocks or Minutes per Time Slot!\n"
   }
 
@@ -35,6 +35,9 @@ export function checkPoll(title, deadline, slot, block, number, dateList){
           else if (s >= e)
           {
               errorMsg += "Start times must be before End times!\n";
+          }
+          else if(!greaterThanCurrentDate(d, s)){
+              errorMsg += "Invalid times or dates!\n";
           }
       }
   }
