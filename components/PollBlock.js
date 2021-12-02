@@ -3,11 +3,12 @@ import React from 'react'
 export default function PollBlock(props) {
     const [day, month, date, year] = props.date;
     const times = props.times;
+
     const vps = props.vps;
     const vpu = props.vpu;
     const id = props.id;
     var selectedId = [];
-
+    console.log(times);
     // for(let time in times){
     //     console.log(time);
     // }

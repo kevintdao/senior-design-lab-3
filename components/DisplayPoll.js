@@ -3,24 +3,31 @@ import PollBlock from './PollBlock';
 
 export default function DisplayPoll(props) {
     //const blocks = props.blocks.data.blocks;
-    const blocks = props.blocks[0].data.blocks;
+    //const blocks = props.blocks[0].data.blocks;
+    const blocks = props.blocks;
     const vps = props.vps;
     const vpu = props.vpu;
-    const id = props.blocks[0].id;
+    const output = [];
+    //const id = props.blocks[0].id;
     return (
         <div>
-            {blocks.map((block, i) => {
-                // const id = block.id;
-                //const data = block.data;
-
-                const blockDate = block.end.toDate().toString().split(" ");
-                const blockDateStart = block.start.toDate().toString().split(" ");
-                const times = {"end": blockDate[4], "start": blockDateStart[4]}
-                //console.log(times);
-                //const times = data.time;
-                //return <PollBlock key={i} id={id} times={times} vps={vps} vpu={vpu}/>
-                // return <PollBlock key={i} id={id} date={blockDate} times={times} vps={vps} vpu={vpu}/>
-                return <PollBlock key={i} id={i} date={blockDate} times={times} vps={vps} vpu={vpu}/>
+            {blocks.map((block) => {
+                const id = block.id;
+                
+                block.data.blocks.map((b, i) => {
+                    const blockDateEnd = b.end.toDate().toString().split(" ");
+                    const blockDateStart = b.start.toDate().toString().split(" ");
+                    const times = {"end": blockDateEnd[4], "start": blockDateStart[4]};
+                    //console.log(times);
+                    // console.log(i);
+                    // console.log(blockDateEnd);
+                    output.push(<PollBlock key={i} id={id} date={blockDateEnd} times={times} vps={vps} vpu={vpu} />);
+                    //return <PollBlock key={i} id={id} date={blockDateEnd} times={times} vps={vps} vpu={vpu} />
+                });
+                
+            })}
+            {output.forEach((block,i)=>{
+                console.log(block);
             })}
         </div>
     )
