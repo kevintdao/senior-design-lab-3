@@ -160,7 +160,7 @@ export default function Poll() {
                 <input type="text" id='name' className="border border-gray-300 rounded p-2"/>
             </div>
             <DisplayPoll blocks={blocks} vps={poll.votes_per_slot} vpu={poll.votes_per_user} />
-            <button className="bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium mb-2" onClick={handleSubmit}>Submit</button>
+            <button id='submit' disabled className="disabled:bg-indigo-300 disabled:cursor-not-allowed bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium mb-2" onClick={handleSubmit}>Submit</button>
         </div>
     )
 }

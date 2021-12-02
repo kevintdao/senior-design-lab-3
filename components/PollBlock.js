@@ -12,11 +12,19 @@ export default function PollBlock(props) {
     
     function handleCheckbox(element, vps){
         var selected = document.querySelectorAll('input[type=checkbox]:checked');
+        if (selected.length > 0){
+            document.getElementById('submit').disabled = false;
+        }
+        else{
+            document.getElementById('submit').disabled = true;
+        }
+
         if( !(selected.length <= vpu) ){
             selected.forEach((s) => {
                 s.checked = false;
             })
             alert("You can only select " + vpu + " option(s)");
+            document.getElementById('submit').disabled = true;
         }
     }
 
