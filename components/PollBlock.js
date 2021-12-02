@@ -3,12 +3,11 @@ import React from 'react'
 export default function PollBlock(props) {
     const [day, month, date, year] = props.date;
     const times = props.times;
-
+    const bid = props.bid;
     const vps = props.vps;
     const vpu = props.vpu;
     const id = props.id;
     var selectedId = [];
-    console.log(times);
     // for(let time in times){
     //     console.log(time);
     // }
@@ -41,7 +40,7 @@ export default function PollBlock(props) {
         <div id={id} className="flex items-center">
             <h6>{day} {month} {date} {year} {times.start} to {times.end}</h6>
             {/* <input type="checkbox" id={`${id}_${month}-${date}-${times.start}`} className="mr-2" onChange={(e) => handleCheckbox(e.target, vps)}/> */}
-            <input type="checkbox" id={id} className="mr-2"/>
+            <input type="checkbox" id={`${id}_${bid}`} className="mr-2"/>
             <hr className="mb-1 mt-1"/>
         </div>
     )
