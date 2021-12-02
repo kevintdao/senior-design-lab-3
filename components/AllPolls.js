@@ -133,7 +133,7 @@ export default function AllPolls() {
             setAlert('Invites successfully sent!');
         }
         else{
-            setError('Failed to sent invitation');
+            setError('Failed to send invitation');
         }
     }
 
