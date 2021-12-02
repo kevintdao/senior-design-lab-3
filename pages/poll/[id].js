@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { doc, getDoc, getDocs, collection, query, where, orderBy, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, getDocs, collection, query, where, orderBy, updateDoc, arrayUnion } from 'firebase/firestore'
 import { db } from '../../utils/firebase'
 import DisplayPoll from '../../components/DisplayPoll'
 
@@ -37,20 +37,17 @@ export default function Poll() {
         });
         return output;
     }
-    async function handleSubmit() {
+    function handleSubmit() {
         var selected = document.querySelectorAll('input[type=checkbox]:checked');
         var name = document.getElementById('name').value;
         selected.forEach( async (s) => {
-            var [bid, slot] = s.id.split("_");
+            const [bid, slot] = s.id.split("_");
             var pollRef = doc(db, 'blocks', bid);
+            var field = "votes." + slot;
             await updateDoc(pollRef, {
-                slot: name
+                [field]: name
             });
         });
-        // const blocksRef = doc(db, "blocks", blocks.blocks[0].id)
-        // await updateDoc(blocksRef, {
-        //     voting 
-        // })
     }
 
     useEffect(() => {
