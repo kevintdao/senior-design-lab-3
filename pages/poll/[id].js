@@ -15,19 +15,19 @@ export default function Poll() {
     const [alertMsg, setAlertMsg] = useState('');
     const currTime = Math.floor((new Date()).getTime() / 1000);
 
-    async function getPoll(id){
+    async function getPoll(id) {
         const ref = doc(db, "polls", id);
         const snapshot = await getDoc(ref);
-        
-        if(snapshot.exists()){
+
+        if (snapshot.exists()) {
             return snapshot.data();
         }
-        else{
+        else {
             setError("Invalid ID");
             return;
         }
     }
-    async function getBlocks(pollId){
+    async function getBlocks(pollId) {
         const output = [];
         const q = query(collection(db, "blocks"), where("poll", "==", pollId));
         const snapshot = await getDocs(q);
@@ -42,12 +42,12 @@ export default function Poll() {
     function handleSubmit() {
         var selected = document.querySelectorAll('input[type=checkbox]:checked');
         var name = document.getElementById('name').value;
-        if(name == ""){
+        if (name == "") {
             alert("Please enter a name!");
             return;
         }
 
-        if (selected.length == 0){
+        if (selected.length == 0) {
             alert("Select at least 1 option!");
             return;
         }
@@ -69,7 +69,7 @@ export default function Poll() {
             timeMsg += `${select.date}, ${select.time}\n`;
         })
 
-        selected.forEach( async (s) => {
+        selected.forEach(async (s) => {
             const [bid, slot] = s.id.split("_");
             var pollRef = doc(db, 'blocks', bid);
             var field = "votes." + slot;
@@ -98,11 +98,11 @@ export default function Poll() {
         })
     }, [alertMsg])
 
-    if (loading){
+    if (loading) {
         return <div></div>
     }
 
-    if (alertMsg){
+    if (alertMsg) {
         return (
             <div className="container max-w-6xl lg:mx-auto mt-2">
                 <Alert text={alertMsg} bgColor={'bg-green-100'} textColor={'text-green-700'} borderColor={'border-green-400'} />
@@ -124,10 +124,10 @@ export default function Poll() {
                         </tr>
                     </tbody>
                 </table>
-                <hr className="mb-2"/>
+                <hr className="mb-2" />
                 <div className="mb-2">
                     <label htmlFor="name">Enter your name: </label>
-                    <input type="text" id='name' className="border border-gray-300 rounded p-2"/>
+                    <input type="text" id='name' className="border border-gray-300 rounded p-2" />
                 </div>
                 <DisplayPoll blocks={blocks} vps={poll.votes_per_slot} vpu={poll.votes_per_user} />
             </div>
@@ -155,8 +155,12 @@ export default function Poll() {
                         <td>{poll.notes}</td>
                     </tr>
                     <tr>
-                        <td>All times displays in:</td>
+                        <td>Timezone:</td>
                         <td><u>{poll.timezone}</u></td>
+                    </tr>
+                    <tr>
+                        <td>Votes Per User:</td>
+                        <td>{poll.votes_per_user}</td>
                     </tr>
                     <tr>
                         <td>Deadline:</td>
@@ -164,10 +168,10 @@ export default function Poll() {
                     </tr>
                 </tbody>
             </table>
-            <hr className="mb-2"/>
+            <hr className="mb-2" />
             <div className="mb-2">
                 <label htmlFor="name">Enter your name: </label>
-                <input type="text" id='name' className="border border-gray-300 rounded p-2"/>
+                <input type="text" id='name' className="border border-gray-300 rounded p-2" />
             </div>
             <DisplayPoll blocks={blocks} vps={poll.votes_per_slot} vpu={poll.votes_per_user} />
 
