@@ -45,7 +45,7 @@ export default function Poll() {
             var pollRef = doc(db, 'blocks', bid);
             var field = "votes." + slot;
             await updateDoc(pollRef, {
-                [field]: name
+                [field]: arrayUnion(name)
             });
         });
     }
