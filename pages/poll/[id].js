@@ -12,7 +12,7 @@ export default function Poll() {
     const [poll, setPoll] = useState();
     const [blocks, setBlocks] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [alert, setAlert] = useState('');
+    const [alertMsg, setAlertMsg] = useState('');
 
     async function getPoll(id){
         const ref = doc(db, "polls", id);
@@ -45,20 +45,41 @@ export default function Poll() {
             alert("must enter a name");
             return;
         }
-        selected.forEach( async (s) => {
-            const [bid, slot] = s.id.split("_");
-            var pollRef = doc(db, 'blocks', bid);
-            var field = "votes." + slot;
-            await updateDoc(pollRef, {
-                [field]: arrayUnion(name)
-            });
-        });
-        setAlert(
-            `Voted!\n
+
+        var selectTimes = [];
+        selected.forEach((element) => {
+            let date = element.parentNode.parentNode.children[0].innerText;
+            let time = element.parentNode.children[1].innerText;
+
+            selectTimes.push({
+                date: date,
+                time: time
+            })
+        })
+
+        let timeMsg = "";
+        selectTimes.forEach((select) => {
+            timeMsg += `${select.date}, ${select.time}\n`;
+        })
+
+        console.log(timeMsg);
+        // selected.forEach( async (s) => {
+        //     const [bid, slot] = s.id.split("_");
+        //     var pollRef = doc(db, 'blocks', bid);
+        //     var field = "votes." + slot;
+        //     await updateDoc(pollRef, {
+        //         [field]: arrayUnion(name)
+        //     });
+        // });
+
+        let msg = `Voted!\n
             Title: ${poll.title}\n
             Location: ${poll.location}\n
-            Name: ${name}`
-        );
+            Name: ${name}\n
+            Selected Time(s): ${timeMsg}\n`;
+
+        msg = msg.split('\n').map((str, i) => <p key={i}>{str}</p>);
+        setAlertMsg(msg);
     }
 
     useEffect(() => {
@@ -69,17 +90,17 @@ export default function Poll() {
             setBlocks(response);
             setLoading(false);
         })
-        setAlert('');
+        setAlertMsg('');
     }, [])
 
     if (loading){
         return <div></div>
     }
 
-    if (alert){
+    if (alertMsg){
         return (
             <div>
-                <Alert text={alert} bgColor={'bg-green-100'} textColor={'text-green-700'} borderColor={'border-green-400'} />
+                <Alert text={alertMsg} bgColor={'bg-green-100'} textColor={'text-green-700'} borderColor={'border-green-400'} />
             </div>
         )
     }
