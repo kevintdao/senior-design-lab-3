@@ -36,11 +36,6 @@ export function checkPoll(title, deadline, slot, block, number, dateList){
           {
               errorMsg += "Start times must be before End times!\n";
           }
-          // start time cannot be same as current time or anytime before that
-          else if (!greaterThanCurrentDate(d, s))
-          {
-              errorMsg += "Invlaid times or dates!\n";
-          }
       }
   }
   else {
@@ -51,19 +46,14 @@ export function checkPoll(title, deadline, slot, block, number, dateList){
 
 function greaterThanCurrentDate(d1, t1) {
     let newDate = new Date();
-    let currDay = newDate.getDate();
-    let currMonth = newDate.getMonth() + 1;
+    let currDay = format(newDate.getDate());
+    let currMonth = format(newDate.getMonth() + 1);
     let currYear = newDate.getFullYear();
-    let currHours = newDate.getHours();
-    let currMinutes = newDate.getMinutes();
+    let currHours = format(newDate.getHours());
+    let currMinutes = format(newDate.getMinutes());
 
     let d2 = currYear + '-' + currMonth + '-' + currDay;
     let t2 = currHours + ':' + currMinutes;
-
-    if (currHours < 10)
-    {
-        t2 = '0' + currHours + ':' + currMinutes;  
-    }
 
     if(d1 > d2)
     {
