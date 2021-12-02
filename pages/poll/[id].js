@@ -13,6 +13,7 @@ export default function Poll() {
     const [blocks, setBlocks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [alertMsg, setAlertMsg] = useState('');
+    const currTime = Math.floor((new Date()).getTime() / 1000);
 
     async function getPoll(id){
         const ref = doc(db, "polls", id);
@@ -157,6 +158,10 @@ export default function Poll() {
                         <td>All times displays in:</td>
                         <td><u>{poll.timezone}</u></td>
                     </tr>
+                    <tr>
+                        <td>Deadline:</td>
+                        <td>{`${poll.end.toDate().getMonth() + 1}-${poll.end.toDate().getDate()}-${poll.end.toDate().getFullYear()}`}</td>
+                    </tr>
                 </tbody>
             </table>
             <hr className="mb-2"/>
@@ -165,7 +170,8 @@ export default function Poll() {
                 <input type="text" id='name' className="border border-gray-300 rounded p-2"/>
             </div>
             <DisplayPoll blocks={blocks} vps={poll.votes_per_slot} vpu={poll.votes_per_user} />
-            <button id='submit' className="disabled:bg-indigo-300 disabled:cursor-not-allowed bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium mb-2" onClick={handleSubmit}>Submit</button>
+
+            <button id='submit' className="disabled:bg-indigo-300 disabled:cursor-not-allowed bg-indigo-600 text-white hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium mb-2" onClick={handleSubmit} hidden={currTime > poll.end.seconds ? true : false}>Submit</button>
         </div>
     )
 }
