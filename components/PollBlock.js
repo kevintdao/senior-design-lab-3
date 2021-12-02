@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 
 export default function PollBlock(props) {
     const [day, month, date, year] = props.date;
@@ -34,7 +35,10 @@ export default function PollBlock(props) {
         <div id={id} className="flex items-center">
             <input type="checkbox" id={`${id}_${bid}`} className="mr-2" disabled={votes.length >= vps} onChange={(e) => handleCheckbox(e.target, vps)} />
             <label htmlFor={`${id}_${bid}`} className="w-1/3">{formatTime(times.start)} to {formatTime(times.end)}</label>
-            <p className="w-1/4 text-center">{votes.length.toString()} / {vps}</p>
+            <div className="w-1/4 text-center flex flex-row space-x-2 align-center">
+                <Image src='/graphics/check mark transparent.png' width="20px" height='20px' />
+                < >{votes.length.toString()} / {vps}</>
+            </div>
             <p className="w-6/12">Participants: <strong>{votes.join()}</strong></p>
         </div>
     )
