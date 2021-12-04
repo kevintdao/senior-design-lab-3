@@ -97,6 +97,46 @@ export default function AllPolls() {
         }
     }
 
+    function InvitePopup(props) {
+        const id = props.id;
+
+        return (
+            <Popup trigger={<a className="text-indigo-600 hover:text-indigo-900 cursor-pointer">Invite</a>} modal>
+                {close => (
+                    <div className="container flex flex-col modal space-y-2 mb-2">
+                        <h1 className="text-4xl font-bold text-gray-900 py-3 text-center">Invite users</h1>
+                        <p>Enter emails in seperate line for the users you want to invite to this poll</p>
+                        <textarea name="users" id="users" cols="30" rows="7" className="border border-gray-300 rounded p-2 none"></textarea>
+                        <button onClick={() => { sendEmail(id); close(); }} className="bg-indigo-600 text-white hover:bg-indigo-700 rounded-md h-8">Submit</button>
+                    </div>
+                )}
+            </Popup>
+        )
+    }
+
+    async function sendEmail(id) {
+        const users = document.getElementById("users").value.trim().split("\n");
+        const formData = {};
+
+        formData['id'] = id;
+        formData['users'] = users;
+        console.log(formData);
+        const response = await fetch('/api/mail', {
+            method: 'POST',
+            body: JSON.stringify(formData)
+        })
+        const data = await response.json();
+        
+        setAlert('');
+        setError('');
+        if(data.status == 'Ok'){
+            setAlert('Invites successfully sent!');
+        }
+        else{
+            setError('Failed to send invitations!');
+        }
+    }
+
     return (
         <div className="flex mt-2 justify-start flex-col">
             {alert && <Alert text={alert} bgColor={'bg-green-100'} textColor={'text-green-700'} borderColor={'border-green-400'} />}
