@@ -28,22 +28,6 @@ export default function AllPolls() {
         return output;
     }
 
-    useEffect(() => {
-        var active = [];
-        var past = [];
-        getPolls(currentUser.email).then(response => {
-            response.forEach((poll) => {
-                currentDate < poll.data.end.toDate() ? active.push(poll) : past.push(poll);
-            })
-            setActivePolls(active);
-            setPastPolls(past);
-            setLoading(false);
-        })
-    }, [])
-
-    if (loading) {
-        return <div></div>
-    }
 
     function Polls(props) {
         const polls = props.polls
