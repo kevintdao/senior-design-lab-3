@@ -15,6 +15,19 @@ export default function AllPolls() {
     const [alert, setAlert] = useState('');
     const [error, setError] = useState('');
 
+    async function getPolls(email) {
+        const output = [];
+        const q = query(collection(db, "polls"), where("email", "==", email), orderBy("end"));
+        const snapshot = await getDocs(q);
+        snapshot.forEach((doc) => {
+            output.push({
+                id: doc.id,
+                data: doc.data()
+            });
+        });
+        return output;
+    }
+
     useEffect(() => {
         var active = [];
         var past = [];
