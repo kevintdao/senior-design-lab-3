@@ -6,7 +6,7 @@ export default function DisplayPoll(props) {
     const blocks = props.blocks;
     const vps = props.vps;
     const vpu = props.vpu;
-    const date = blocks[0].data.blocks[0].start.toDate().toString().split(" ")
+    const date = blocks[0].data.blocks[0].start.toDate().toString().split(" ");
 
     return (
         <div id='poll-block'>
