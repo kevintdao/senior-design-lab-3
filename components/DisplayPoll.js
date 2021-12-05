@@ -8,7 +8,6 @@ export default function DisplayPoll(props) {
     const vpu = props.vpu;
     const date = blocks[0].data.blocks[0].start.toDate().toString().split(" ")
 //
-
     return (
         <div id='poll-block'>
             <div>
