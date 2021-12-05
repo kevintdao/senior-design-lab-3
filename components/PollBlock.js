@@ -20,7 +20,7 @@ export default function PollBlock(props) {
             alert("You can only select " + vpu + " option(s)!");
         }
     }
-
+    //
     function formatTime(time){
         const [h, m] = time.split(':')
         
