@@ -9,7 +9,7 @@ export default function PollBlock(props) {
     const vpu = props.vpu;
     const id = props.id;
     const votes = props.votes;
-    // 
+
     //
     function handleCheckbox(element, vps){
         var selected = document.querySelectorAll('input[type=checkbox]:checked');
