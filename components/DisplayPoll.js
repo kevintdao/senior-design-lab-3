@@ -19,7 +19,6 @@ export default function DisplayPoll(props) {
 
             {blocks.map((block) => {
                 const id = block.id;
-
                 return block.data.blocks.map((b, i) => {
                     const blockDateEnd = b.end.toDate().toString().split(" ");
                     const blockDateStart = b.start.toDate().toString().split(" ");
