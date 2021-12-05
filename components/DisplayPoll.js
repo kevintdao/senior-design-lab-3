@@ -16,7 +16,7 @@ export default function DisplayPoll(props) {
                     {date[0]} {date[1]} {date[2]} {date[3]}
                 </h4>
             </div>
-
+//
             {blocks.map((block) => {
                 const id = block.id;
                 return block.data.blocks.map((b, i) => {
