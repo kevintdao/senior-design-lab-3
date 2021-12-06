@@ -12,7 +12,7 @@ export default function PollBlock(props) {
 
     function handleCheckbox(element, vps){
         var selected = document.querySelectorAll('input[type=checkbox]:checked');
-        
+
         if( !(selected.length <= vpu) ){
             selected.forEach((s) => {
                 s.checked = false;
@@ -23,7 +23,7 @@ export default function PollBlock(props) {
     
     function formatTime(time){
         const [h, m] = time.split(':')
-        
+        //
         const hour = h < 12 ? h : h - 12;
         hour = hour == 0 ? 12 : hour
         const min = m
