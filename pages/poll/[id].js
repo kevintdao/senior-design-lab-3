@@ -27,6 +27,7 @@ export default function Poll() {
             return;
         }
     }
+    
     async function getBlocks(pollId) {
         const output = [];
         const q = query(collection(db, "blocks"), where("poll", "==", pollId));
