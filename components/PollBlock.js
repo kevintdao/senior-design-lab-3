@@ -23,6 +23,7 @@ export default function PollBlock(props) {
     
     function formatTime(time){
         const [h, m] = time.split(':')
+//
         const hour = h < 12 ? h : h - 12;
         hour = hour == 0 ? 12 : hour
         const min = m
