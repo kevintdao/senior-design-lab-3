@@ -32,7 +32,6 @@ export default function PollBlock(props) {
         return `${hour}:${min} ${ampm}`;
     }
 
-    
     return (
         <div id={id} className="flex items-center">
             <input type="checkbox" id={`${id}_${bid}`} className="mr-2" disabled={votes.length >= vps} onChange={(e) => handleCheckbox(e.target, vps)} />
