@@ -1,6 +1,7 @@
 import React from 'react';
 import PollBlock from './PollBlock';
 
+
 export default function DisplayPoll(props) {
 
     const blocks = props.blocks;
