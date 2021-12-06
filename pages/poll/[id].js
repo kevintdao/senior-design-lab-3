@@ -15,7 +15,7 @@ export default function Poll() {
     const [alertMsg, setAlertMsg] = useState('');
     const currTime = Math.floor((new Date()).getTime() / 1000);
 
-    
+    //
     async function getPoll(id) {
         const ref = doc(db, "polls", id);
         const snapshot = await getDoc(ref);
