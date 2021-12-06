@@ -12,6 +12,7 @@ export default function PollBlock(props) {
 
     function handleCheckbox(element, vps){
         var selected = document.querySelectorAll('input[type=checkbox]:checked');
+        
         if( !(selected.length <= vpu) ){
             selected.forEach((s) => {
                 s.checked = false;
