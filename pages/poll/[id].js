@@ -27,7 +27,7 @@ export default function Poll() {
             return;
         }
     }
-    
+
     async function getBlocks(pollId) {
         const output = [];
         const q = query(collection(db, "blocks"), where("poll", "==", pollId));
@@ -40,6 +40,7 @@ export default function Poll() {
         });
         return output;
     }
+    
     function handleSubmit() {
         var selected = document.querySelectorAll('input[type=checkbox]:checked');
         var name = document.getElementById('name').value;
